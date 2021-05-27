@@ -16,6 +16,7 @@ public class Server {
      */
     public Server(){
         this.running = true;
+        gameManager = new GameManager(10);
     }
 
     /**
@@ -28,7 +29,7 @@ public class Server {
             System.out.println("Server with port : " + port + " Started \nWaiting for Client .....");
             int clientNumber = 1;
             while (running){
-                pool.execute(new ClientHandler(serverSocket.accept(),clientNumber));
+                pool.execute(new ClientHandler(serverSocket.accept(),clientNumber , gameManager));
                 System.out.println("Server connected to new Client [Client-" + clientNumber + "]");
                 clientNumber++;
             }

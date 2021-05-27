@@ -21,6 +21,9 @@ public class GameManager {
         gameState.addPlayers(gameInitiator.initiatePlayers(playerCount));
         gameLoop.play();
     }
+    public boolean checkUsername(String username){
+        return gameState.checkUsername(username);
+    }
 
 
 }
