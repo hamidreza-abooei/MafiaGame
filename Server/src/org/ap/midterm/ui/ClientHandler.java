@@ -22,6 +22,7 @@ public class ClientHandler implements Runnable{
         try (DataInputStream in = new DataInputStream(connection.getInputStream());
              DataOutputStream out = new DataOutputStream(connection.getOutputStream())){
             while (true){
+                out.writeUTF("end");
                 String input = in.readUTF();
                 if( input.equalsIgnoreCase("end")){
                     break;
