@@ -6,13 +6,17 @@ import java.io.IOException;
 import java.net.Socket;
 
 public class ClientHandler implements Runnable{
-
+    // Fields
     private int clientID;
     private Socket connection;
     public ClientHandler(Socket connection , int clientID){
         this.clientID = clientID;
         this.connection = connection;
     }
+
+    /**
+     * Run method from Runnable Interface
+     */
     @Override
     public void run() {
         try (DataInputStream in = new DataInputStream(connection.getInputStream());
