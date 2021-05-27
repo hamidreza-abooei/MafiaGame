@@ -1,23 +1,27 @@
 package org.ap.midterm.ui;
-
 import org.ap.midterm.Models.GameManager;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Server {
+    // Fields
     GameManager gameManager;
     private boolean running;
 
-    public Server(int port){
+    /**
+     * Constructor
+     */
+    public Server(){
         this.running = true;
     }
 
+    /**
+     * Start server and waiting for clients
+     * @param port the port that server running on
+     */
     public void startServer( int port ){
         ExecutorService pool = Executors.newCachedThreadPool();
         try(ServerSocket serverSocket = new ServerSocket(port)){
@@ -33,6 +37,10 @@ public class Server {
             System.err.println(e.toString());
         }
     }
+
+    /**
+     * Down server
+     */
     public void downServer(){
         this.running = false;
     }
