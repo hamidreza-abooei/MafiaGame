@@ -20,12 +20,13 @@ public class Client {
         try (Socket socket = new Socket(ipAddress,port);
              DataInputStream in = new DataInputStream(socket.getInputStream());
              DataOutputStream out = new DataOutputStream(socket.getOutputStream())){
-//            Scanner scanner = new Scanner(System.in);
+            Scanner scanner = new Scanner(System.in);
             System.out.println("Connected to server.");
             while (true){
-                System.out.println("entered sth");
-//                String entered = scanner.nextLine();
                 String read = in.readUTF();
+                System.out.println();
+                String entered = scanner.nextLine();
+                out.writeUTF(entered);
                 if (read.equalsIgnoreCase("end")){
                     out.writeUTF("end");
                     break;
@@ -33,11 +34,15 @@ public class Client {
                 System.out.println("end client");
             }
         } catch (UnknownHostException e) {
-            System.err.println(e.toString());
+            System.err.println("Something wrong in Host Known ");
+        } catch (ConnectException e){
+            System.err.println("Couldn't connect to Server");
+        } catch (SocketException e) {
+            System.err.println ("Server Not Responding");
         } catch (IOException e) {
-            System.err.println(e.toString());
+            System.err.println("Some went Wrong in I/O");
         } catch (IllegalArgumentException e){
-            System.err.println(e.toString());
+            System.err.println("Some went Wrong in Client starting");
         } catch (SecurityException e){
             System.err.println(e.toString());
         }

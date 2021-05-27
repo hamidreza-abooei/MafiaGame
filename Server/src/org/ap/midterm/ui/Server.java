@@ -36,6 +36,8 @@ public class Server {
             pool.shutdown();
         } catch (IOException e) {
             System.err.println(e.toString());
+        } catch (NullPointerException e){
+            System.err.println(e.toString());
         }
     }
 
