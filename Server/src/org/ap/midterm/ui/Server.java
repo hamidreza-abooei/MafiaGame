@@ -10,16 +10,18 @@ import java.util.concurrent.RejectedExecutionException;
 
 public class Server {
     // Fields
-    GameManager gameManager;
+    private GameManager gameManager;
     private boolean running;
-    GameStarter gameStarter ;
+    private GameStarter gameStarter ;
+    private int playerCount;
     /**
      * Constructor
      */
     public Server(){
+        playerCount = 10;
         this.running = true;
         gameManager = new GameManager(10);
-        gameStarter = new GameStarter(gameManager);
+        gameStarter = new GameStarter(gameManager ,playerCount);
     }
 
     /**
@@ -35,12 +37,10 @@ public class Server {
             ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
             while (running){
                 clientHandlers.add(new ClientHandler(serverSocket.accept(),clientNumber , gameManager , gameStarter));
-//                System.out.println(clientHandlers.get(clientNumber-1));
                 pool.execute(clientHandlers.get(clientNumber-1));
-//                pool.execute(new ClientHandler(serverSocket.accept(),clientNumber , gameManager));
                 System.out.println("Server connected to new Client [Client-" + clientNumber + "]");
                 clientNumber++;
-                if(clientNumber > 3){
+                if(clientNumber > playerCount){
                     downServer();
                 }
             }

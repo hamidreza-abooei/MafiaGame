@@ -1,6 +1,5 @@
 package org.ap.midterm.ui;
 
-import java.awt.desktop.SystemEventListener;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;

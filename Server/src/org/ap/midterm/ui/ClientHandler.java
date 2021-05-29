@@ -12,8 +12,9 @@ public class ClientHandler implements Runnable{
     private int clientID;
     private Socket connection;
     private String username;
-    GameManager gameManager;
-    GameStarter gameStarter;
+    private GameManager gameManager;
+    private GameStarter gameStarter;
+    private String message;
     public ClientHandler(Socket connection , int clientID, GameManager gameManager, GameStarter gameStarter){
         this.clientID = clientID;
         this.connection = connection;
@@ -25,7 +26,7 @@ public class ClientHandler implements Runnable{
      * Run method from Runnable Interface
      */
     @Override
-    public void run() {
+    public synchronized void run() {
         try (DataInputStream in = new DataInputStream(connection.getInputStream());
              DataOutputStream out = new DataOutputStream(connection.getOutputStream())){
             do{
@@ -39,7 +40,12 @@ public class ClientHandler implements Runnable{
             gameStarter.waitForJoiningAllMembers();
             out.writeUTF("Game has been started");
             while (true){
-                String input = in.readUTF();
+                String input = writeToClient();
+                out.writeUTF(input);
+                if (input.equalsIgnoreCase("read")){
+                    String readOfClient = in.readUTF();
+                    readFromClient(readOfClient);
+                }
                 if( input.equalsIgnoreCase("end")){
                     break;
                 }
@@ -51,6 +57,21 @@ public class ClientHandler implements Runnable{
         }
     }
     public boolean userNameChecker(String username){
-        return gameManager.checkUsername(username);
+        return gameManager.checkUsername(username,this);
+    }
+    private String writeToClient(){
+        try {
+            wait();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return message;
+    }
+    public synchronized void startWriting(String message){
+        this.message = message;
+        notifyAll();
+    }
+    public void readFromClient(String string){
+        gameManager.readFromClient(string);
     }
 }
