@@ -1,8 +1,8 @@
 package org.ap.midterm.Models;
 
 public abstract class Player{
-    protected boolean alive = true;
-    protected String name;
+    private boolean alive = true;
+    private String name;
 
     /**
      * getter
@@ -33,5 +33,10 @@ public abstract class Player{
      */
     public boolean isAlive(){
         return alive;
+    }
+
+    @Override
+    public String toString(){
+        return name;
     }
 }
