@@ -1,8 +1,8 @@
 package org.ap.midterm.ui;
 
-public class SharedInformation {
+public class GameStarter {
     private static int clientNumbers;
-    public SharedInformation(){
+    public GameStarter(){
         clientNumbers = 0;
     }
     public synchronized void addClient (){

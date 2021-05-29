@@ -13,12 +13,12 @@ public class ClientHandler implements Runnable{
     private Socket connection;
     private String username;
     GameManager gameManager;
-    SharedInformation sharedInformation;
-    public ClientHandler(Socket connection , int clientID, GameManager gameManager, SharedInformation sharedInformation){
+    GameStarter gameStarter;
+    public ClientHandler(Socket connection , int clientID, GameManager gameManager, GameStarter gameStarter){
         this.clientID = clientID;
         this.connection = connection;
         this.gameManager = gameManager;
-        this.sharedInformation = sharedInformation;
+        this.gameStarter = gameStarter;
     }
 
     /**
@@ -28,20 +28,15 @@ public class ClientHandler implements Runnable{
     public void run() {
         try (DataInputStream in = new DataInputStream(connection.getInputStream());
              DataOutputStream out = new DataOutputStream(connection.getOutputStream())){
-//            System.out.println("client handler is running");
             do{
-//                System.out.println("Enter username");
                 out.writeUTF("Enter Username");
                 out.writeUTF("read");
                 username = in.readUTF();
-//                System.out.println("username: " + username);
             }while (!userNameChecker(username));
             out.writeUTF("Welcome to the Mafia Game " + username);
             out.writeUTF("Wait for the other players to join.");
-//            Thread.sleep(180000);
-//            Thread.sleep(60000);
-            sharedInformation.addClient();
-            sharedInformation.waitForJoiningAllMembers();
+            gameStarter.addClient();
+            gameStarter.waitForJoiningAllMembers();
             out.writeUTF("Game has been started");
             while (true){
 
@@ -57,7 +52,6 @@ public class ClientHandler implements Runnable{
         }
     }
     public boolean userNameChecker(String username){
-//        System.out.println("username checker");
         return gameManager.checkUsername(username);
     }
 }

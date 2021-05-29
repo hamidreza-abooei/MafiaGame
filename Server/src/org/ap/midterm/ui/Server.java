@@ -26,14 +26,14 @@ public class Server {
      * @param port the port that server running on
      */
     public void startServer( int port ){
-        SharedInformation sharedInformation = new SharedInformation();
+        GameStarter gameStarter = new GameStarter();
         ExecutorService pool = Executors.newCachedThreadPool();
         try(ServerSocket serverSocket = new ServerSocket(port)){
             System.out.println("Server with port : " + port + " Started \nWaiting for Client .....");
             int clientNumber = 1;
             ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
             while (running){
-                clientHandlers.add(new ClientHandler(serverSocket.accept(),clientNumber , gameManager , sharedInformation));
+                clientHandlers.add(new ClientHandler(serverSocket.accept(),clientNumber , gameManager , gameStarter));
 //                System.out.println(clientHandlers.get(clientNumber-1));
                 pool.execute(clientHandlers.get(clientNumber-1));
 //                pool.execute(new ClientHandler(serverSocket.accept(),clientNumber , gameManager));
