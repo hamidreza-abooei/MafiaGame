@@ -8,7 +8,6 @@ public class GameState {
     private ArrayList<String> usernames;
 
     public GameState(){
-//        players = new ArrayList<>();
         usernames = new ArrayList<>();
     }
     public void addPlayers(ArrayList<Player> players){
@@ -18,7 +17,6 @@ public class GameState {
         usernames.add(username);
     }
     public boolean checkUsername(String username){
-//        System.out.println("check username GameState.");
         for (String anyUsername: usernames) {
             if(anyUsername.equalsIgnoreCase(username)){
                 return false;
@@ -28,7 +26,7 @@ public class GameState {
         return true;
     }
 
-    public void diePlayer(int playerIndex) {
+    public void killPlayer(int playerIndex) {
         players.get(playerIndex).die();
     }
 }

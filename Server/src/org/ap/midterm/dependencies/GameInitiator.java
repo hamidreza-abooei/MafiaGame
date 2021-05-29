@@ -1,14 +1,12 @@
 package org.ap.midterm.dependencies;
 
 import org.ap.midterm.Models.Citizen.*;
-import org.ap.midterm.Models.GameManager;
 import org.ap.midterm.Models.Mafia.DrLecter;
 import org.ap.midterm.Models.Mafia.GodFather;
 import org.ap.midterm.Models.Mafia.Mafia;
 import org.ap.midterm.Models.Player;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 public class GameInitiator {

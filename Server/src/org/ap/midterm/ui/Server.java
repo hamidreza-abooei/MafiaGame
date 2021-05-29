@@ -12,13 +12,14 @@ public class Server {
     // Fields
     GameManager gameManager;
     private boolean running;
-
+    GameStarter gameStarter ;
     /**
      * Constructor
      */
     public Server(){
         this.running = true;
         gameManager = new GameManager(10);
+        gameStarter = new GameStarter(gameManager);
     }
 
     /**
@@ -26,7 +27,7 @@ public class Server {
      * @param port the port that server running on
      */
     public void startServer( int port ){
-        GameStarter gameStarter = new GameStarter();
+
         ExecutorService pool = Executors.newCachedThreadPool();
         try(ServerSocket serverSocket = new ServerSocket(port)){
             System.out.println("Server with port : " + port + " Started \nWaiting for Client .....");

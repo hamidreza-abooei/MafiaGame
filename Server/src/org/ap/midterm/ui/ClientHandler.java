@@ -38,7 +38,6 @@ public class ClientHandler implements Runnable{
             gameStarter.addClient();
             gameStarter.waitForJoiningAllMembers();
             out.writeUTF("Game has been started");
-//            gameManager.play();
             while (true){
                 String input = in.readUTF();
                 if( input.equalsIgnoreCase("end")){
