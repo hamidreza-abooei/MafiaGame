@@ -17,8 +17,8 @@ public class GameManager {
     }
 
     public void play(){
-        GameInitiator gameInitiator = new GameInitiator();
-        gameState.addPlayers(gameInitiator.initiatePlayers(playerCount));
+        GameInitiator gameInitiator = new GameInitiator(playerCount);
+        gameState.addPlayers(gameInitiator.initiatePlayers());
         gameLoop.play();
     }
     public boolean checkUsername(String username){
