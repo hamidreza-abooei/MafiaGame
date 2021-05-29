@@ -44,10 +44,6 @@ public class Server {
                     downServer();
                 }
             }
-//            pool.notifyAll();
-//            for(ClientHandler clientHandler: clientHandlers){
-//                clientHandler.notifyAll();
-//            }
             pool.shutdown();
         } catch (IOException e) {
             System.err.println("There is problem in I/O");

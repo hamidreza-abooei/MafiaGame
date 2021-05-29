@@ -19,19 +19,14 @@ public class GameStarter {
         clientNumbers ++;
     }
     public synchronized void waitForJoiningAllMembers(){
-//        System.out.println("" + clientNumbers + "  " + (playerCount-1) );
         while (clientNumbers < playerCount){
-            System.out.println(clientNumbers);
-            System.out.println(playerCount );
             try {
                 wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        System.out.println("Game has been started");
         notify();
-//        gameManager.play();
         if (!start) {
             gameStart.start();
           start=true;
