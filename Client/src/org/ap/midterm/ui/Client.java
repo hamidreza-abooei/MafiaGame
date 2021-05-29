@@ -24,15 +24,15 @@ public class Client {
             System.out.println("Connected to server.");
             while (true){
                 String read = in.readUTF();
-                System.out.println();
+                System.out.println(read);
                 String entered = scanner.nextLine();
                 out.writeUTF(entered);
                 if (read.equalsIgnoreCase("end")){
                     out.writeUTF("end");
                     break;
                 }
-                System.out.println("end client");
             }
+            System.out.println("end client");
         } catch (UnknownHostException e) {
             System.err.println("Something wrong in Host Known ");
         } catch (ConnectException e){

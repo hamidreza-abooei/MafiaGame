@@ -22,6 +22,7 @@ public class GameManager {
         gameLoop.play();
     }
     public boolean checkUsername(String username){
+//        System.out.println("check username Game Manager");
         return gameState.checkUsername(username);
     }
 

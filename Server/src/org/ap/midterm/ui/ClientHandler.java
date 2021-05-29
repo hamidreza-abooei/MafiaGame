@@ -6,7 +6,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.security.PrivilegedExceptionAction;
 
 public class ClientHandler implements Runnable{
     // Fields
@@ -14,9 +13,12 @@ public class ClientHandler implements Runnable{
     private Socket connection;
     private String username;
     GameManager gameManager;
-    public ClientHandler(Socket connection , int clientID, GameManager gameManager){
+    SharedInformation sharedInformation;
+    public ClientHandler(Socket connection , int clientID, GameManager gameManager, SharedInformation sharedInformation){
         this.clientID = clientID;
         this.connection = connection;
+        this.gameManager = gameManager;
+        this.sharedInformation = sharedInformation;
     }
 
     /**
@@ -26,13 +28,22 @@ public class ClientHandler implements Runnable{
     public void run() {
         try (DataInputStream in = new DataInputStream(connection.getInputStream());
              DataOutputStream out = new DataOutputStream(connection.getOutputStream())){
+//            System.out.println("client handler is running");
             do{
+//                System.out.println("Enter username");
                 out.writeUTF("Enter Username");
                 username = in.readUTF();
+//                System.out.println("username: " + username);
             }while (!userNameChecker(username));
-
+            out.writeUTF("Welcome to the Mafia Game " + username);
+            out.writeUTF("Wait for the other players to join.");
+//            Thread.sleep(180000);
+//            Thread.sleep(60000);
+            sharedInformation.addClient();
+            sharedInformation.waitForJoiningAllMembers();
+            out.writeUTF("Game has been started");
             while (true){
-                out.writeUTF("end");
+
                 String input = in.readUTF();
                 if( input.equalsIgnoreCase("end")){
                     break;
@@ -41,10 +52,11 @@ public class ClientHandler implements Runnable{
             System.out.println("Server closed [Client-" + clientID + "] connection");
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("there is problem in I/O");
         }
     }
     public boolean userNameChecker(String username){
+//        System.out.println("username checker");
         return gameManager.checkUsername(username);
     }
 }

@@ -18,6 +18,7 @@ public class GameState {
         usernames.add(username);
     }
     public boolean checkUsername(String username){
+//        System.out.println("check username GameState.");
         for (String anyUsername: usernames) {
             if(anyUsername.equalsIgnoreCase(username)){
                 return false;
