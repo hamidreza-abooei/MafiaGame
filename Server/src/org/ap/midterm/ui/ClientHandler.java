@@ -32,6 +32,7 @@ public class ClientHandler implements Runnable{
             do{
 //                System.out.println("Enter username");
                 out.writeUTF("Enter Username");
+                out.writeUTF("read");
                 username = in.readUTF();
 //                System.out.println("username: " + username);
             }while (!userNameChecker(username));

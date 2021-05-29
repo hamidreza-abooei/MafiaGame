@@ -24,7 +24,7 @@ public class Client {
             System.out.println("Connected to server.");
             while (true){
                 String read = in.readUTF();
-                if (read == "read"){
+                if (read.equalsIgnoreCase( "read")){
                     String entered = scanner.nextLine();
                     out.writeUTF(entered);
                 }else{
