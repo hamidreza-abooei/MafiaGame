@@ -12,40 +12,40 @@ public class ClientHandler implements Runnable{
     private int clientID;
     private Socket connection;
     private String username;
-    GameManager gameManager;
-    SharedInformation sharedInformation;
-    public ClientHandler(Socket connection , int clientID, GameManager gameManager, SharedInformation sharedInformation){
+    private GameManager gameManager;
+    private GameStarter gameStarter;
+    private String message;
+    public ClientHandler(Socket connection , int clientID, GameManager gameManager, GameStarter gameStarter){
         this.clientID = clientID;
         this.connection = connection;
         this.gameManager = gameManager;
-        this.sharedInformation = sharedInformation;
+        this.gameStarter = gameStarter;
     }
 
     /**
      * Run method from Runnable Interface
      */
     @Override
-    public void run() {
+    public synchronized void run() {
         try (DataInputStream in = new DataInputStream(connection.getInputStream());
              DataOutputStream out = new DataOutputStream(connection.getOutputStream())){
-//            System.out.println("client handler is running");
             do{
-//                System.out.println("Enter username");
                 out.writeUTF("Enter Username");
                 out.writeUTF("read");
                 username = in.readUTF();
-//                System.out.println("username: " + username);
             }while (!userNameChecker(username));
             out.writeUTF("Welcome to the Mafia Game " + username);
             out.writeUTF("Wait for the other players to join.");
-//            Thread.sleep(180000);
-//            Thread.sleep(60000);
-            sharedInformation.addClient();
-            sharedInformation.waitForJoiningAllMembers();
+            gameStarter.addClient();
+            gameStarter.waitForJoiningAllMembers();
             out.writeUTF("Game has been started");
             while (true){
-
-                String input = in.readUTF();
+                String input = writeToClient();
+                out.writeUTF(input);
+                if (input.equalsIgnoreCase("read")){
+                    String readOfClient = in.readUTF();
+                    readFromClient(readOfClient);
+                }
                 if( input.equalsIgnoreCase("end")){
                     break;
                 }
@@ -57,7 +57,21 @@ public class ClientHandler implements Runnable{
         }
     }
     public boolean userNameChecker(String username){
-//        System.out.println("username checker");
-        return gameManager.checkUsername(username);
+        return gameManager.checkUsername(username,this);
+    }
+    private String writeToClient(){
+        try {
+            wait();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return message;
+    }
+    public synchronized void startWriting(String message){
+        this.message = message;
+        notifyAll();
+    }
+    public void readFromClient(String string){
+        gameManager.readFromClient(string);
     }
 }

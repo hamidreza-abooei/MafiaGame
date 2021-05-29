@@ -1,7 +1,9 @@
 package org.ap.midterm.Models.Mafia;
 
-import org.ap.midterm.Models.Mafia.Mafia;
 
 public class DrLecter extends Mafia {
-
+    public DrLecter(){
+        super();
+        super.setName("DrLecter");
+    }
 }
