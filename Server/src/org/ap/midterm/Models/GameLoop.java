@@ -2,6 +2,11 @@ package org.ap.midterm.Models;
 
 
 public class GameLoop {
+    GameManager gameManager;
+//    GameState gameState;
+    public GameLoop(GameManager gameManager){
+        this.gameManager = gameManager;
+    }
     public synchronized void start(){
         firstNight();
         while(true){
@@ -12,7 +17,7 @@ public class GameLoop {
         }
     }
     private void firstNight(){
-
+        gameManager.startMafiaChatRoom();
     }
     private void day(){
 

@@ -1,6 +1,7 @@
 package org.ap.midterm.Models;
 
 import org.ap.midterm.dependencies.GameInitiator;
+import org.ap.midterm.ui.ChatServer;
 import org.ap.midterm.ui.ClientHandler;
 
 import java.util.ArrayList;
@@ -9,11 +10,13 @@ import java.util.HashMap;
 public class GameManager implements Runnable {
     GameState gameState;
     GameLoop gameLoop;
+    ChatServer chatServer;
     int playerCount;
     public GameManager(int playerCount){
         gameState = new GameState();
-        gameLoop = new GameLoop();
+        gameLoop = new GameLoop(this);
         this.playerCount = playerCount;
+        chatServer = new ChatServer();
     }
 
     public int getPlayerCount() {
@@ -38,12 +41,9 @@ public class GameManager implements Runnable {
     public void readFromClient(String string){
 
     }
-    public void startChatRoom(ChatMode chatMode){
+    public void startMafiaChatRoom(){
         ArrayList<ClientHandler> mafias = gameState.getMafiaClientHandler();
-        for (ClientHandler mafia: mafias) {
-            mafia.startWriting("Mafia Chat Room Started...");
 
-        }
     }
 
 
