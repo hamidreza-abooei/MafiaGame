@@ -44,7 +44,6 @@ public class GameState {
     public ArrayList<ClientHandler> getMafiaClientHandler(){
         ArrayList<ClientHandler> mafiaClientHandlers = new ArrayList<>();
         ArrayList<String> mafiaUserNames =getMafiaUserNames();
-
         for (String username : mafiaUserNames) {
             mafiaClientHandlers.add(clientHandlerHashMap.get(username));
         }
@@ -55,7 +54,9 @@ public class GameState {
         ArrayList<String> mafiaUserNames = new ArrayList<>();
         for (int i = 0; i < players.size(); i++) {
             if (players.get(i) instanceof Mafia){
-                mafiaUserNames.add(usernames.get(i));
+                if (players.get(i).isAlive()) {
+                    mafiaUserNames.add(usernames.get(i));
+                }
             }
         }
         return mafiaUserNames;

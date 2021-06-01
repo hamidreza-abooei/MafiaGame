@@ -42,7 +42,7 @@ public class GameManager implements Runnable {
         ArrayList<ClientHandler> mafias = gameState.getMafiaClientHandler();
         for (ClientHandler mafia: mafias) {
             mafia.startWriting("Mafia Chat Room Started...");
-            
+
         }
     }
 
