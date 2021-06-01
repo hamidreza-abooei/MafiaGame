@@ -1,6 +1,6 @@
 package org.ap.midterm;
 
-import org.ap.midterm.ui.Client;
+import org.ap.midterm.Client.Client;
 
 public class Main {
 

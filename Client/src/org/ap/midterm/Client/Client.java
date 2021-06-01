@@ -1,4 +1,4 @@
-package org.ap.midterm.ui;
+package org.ap.midterm.Client;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
