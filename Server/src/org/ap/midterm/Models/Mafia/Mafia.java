@@ -7,4 +7,8 @@ public class Mafia extends Player {
         super();
         super.setName("Mafia");
     }
+    @Override
+    public void nightJob(){
+
+    }
 }

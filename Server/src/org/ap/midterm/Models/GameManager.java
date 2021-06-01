@@ -30,13 +30,20 @@ public class GameManager implements Runnable {
             client.startWriting(players.get(counter).toString());
             counter ++;
         }
-        gameLoop.play();
+        gameLoop.start();
     }
     public boolean checkUsername(String username, ClientHandler clientHandler){
         return gameState.checkUsername(username , clientHandler);
     }
     public void readFromClient(String string){
 
+    }
+    public void startChatRoom(ChatMode chatMode){
+        ArrayList<ClientHandler> mafias = gameState.getMafiaClientHandler();
+        for (ClientHandler mafia: mafias) {
+            mafia.startWriting("Mafia Chat Room Started...");
+            
+        }
     }
 
 

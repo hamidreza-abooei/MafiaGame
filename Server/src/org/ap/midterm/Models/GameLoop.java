@@ -2,23 +2,30 @@ package org.ap.midterm.Models;
 
 
 public class GameLoop {
-    private GameMode gameMode = GameMode.NIGHT;
-    public void play(){
+    public synchronized void start(){
+        firstNight();
         while(true){
-            if (gameMode == GameMode.NIGHT){
-
-
-
-                gameMode = GameMode.DAY;
-            }else if (gameMode == GameMode.DAY){
-
-                gameMode = GameMode.ELECTION;
-            }else if(gameMode == GameMode.ELECTION){
-
-            }
-
-
+            day();
+            election();
+            applyChanges();
+            night();
         }
     }
+    private void firstNight(){
+
+    }
+    private void day(){
+
+    }
+    private void election(){
+
+    }
+    private void night(){
+
+    }
+    public void applyChanges(){
+
+    }
+
 
 }

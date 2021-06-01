@@ -35,8 +35,21 @@ public abstract class Player{
         return alive;
     }
 
+    public void nightJob(){
+
+    }
+
+    public void dayJob(){
+
+    }
+    public void electionJob(){
+
+    }
+
+
     @Override
     public String toString(){
         return name;
     }
+
 }
