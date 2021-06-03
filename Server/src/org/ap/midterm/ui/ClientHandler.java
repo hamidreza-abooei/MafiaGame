@@ -1,12 +1,13 @@
 package org.ap.midterm.ui;
 
 import org.ap.midterm.Models.GameManager;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-
+/**
+ * @author Hamidreza Abooei
+ */
 public class ClientHandler implements Runnable{
     // Fields
     private int clientID;
@@ -15,6 +16,14 @@ public class ClientHandler implements Runnable{
     private GameManager gameManager;
     private GameStarter gameStarter;
     private String message;
+
+    /**
+     * Constructor
+     * @param connection connection to client
+     * @param clientID the client number
+     * @param gameManager the game manager
+     * @param gameStarter the game starter
+     */
     public ClientHandler(Socket connection , int clientID, GameManager gameManager, GameStarter gameStarter){
         this.clientID = clientID;
         this.connection = connection;
@@ -56,9 +65,20 @@ public class ClientHandler implements Runnable{
             System.err.println("there is problem in I/O");
         }
     }
+
+    /**
+     * check name that is not repeated
+     * @param username the player(client) username
+     * @return it is repetitive or not
+     */
     public boolean userNameChecker(String username){
         return gameManager.checkUsername(username,this);
     }
+
+    /**
+     * write message to client
+     * @return message to send to client
+     */
     private String writeToClient(){
         try {
             wait();
@@ -67,10 +87,20 @@ public class ClientHandler implements Runnable{
         }
         return message;
     }
+
+    /**
+     * get message from game and put to message param to write in to client
+     * @param message get message from game
+     */
     public synchronized void startWriting(String message){
         this.message = message;
         notifyAll();
     }
+
+    /**
+     * read message from client
+     * @param string message from client
+     */
     public void readFromClient(String string){
         gameManager.readFromClient(string);
     }

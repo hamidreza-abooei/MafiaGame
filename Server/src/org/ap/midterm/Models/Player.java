@@ -1,5 +1,7 @@
 package org.ap.midterm.Models;
-
+/**
+ * @author Hamidreza Abooei
+ */
 public abstract class Player{
     private boolean alive = true;
     private String name;
@@ -35,18 +37,31 @@ public abstract class Player{
         return alive;
     }
 
+    /**
+     * night job of player
+     */
     public void nightJob(){
 
     }
 
+    /**
+     * day job of player
+     */
     public void dayJob(){
 
     }
+
+    /**
+     * election job of player
+     */
     public void electionJob(){
 
     }
 
-
+    /**
+     *
+     * @return to string (name of player)
+     */
     @Override
     public String toString(){
         return name;

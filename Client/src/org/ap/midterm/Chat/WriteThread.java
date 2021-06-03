@@ -2,5 +2,5 @@ package org.ap.midterm.Chat;
 /**
  * @author Hamidreza Abooei
  */
-public class ReadThread {
+public class WriteThread {
 }

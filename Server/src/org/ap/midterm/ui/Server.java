@@ -8,6 +8,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
 
+/**
+ * @author Hamidreza Abooei
+ */
 public class Server {
     // Fields
     private GameManager gameManager;

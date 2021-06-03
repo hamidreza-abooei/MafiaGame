@@ -8,13 +8,22 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Scanner;
-
+/**
+ * @author Hamidreza Abooei
+ */
 public class Client {
-
+    /**
+     * constructor
+     */
     public Client(){
 
     }
 
+    /**
+     * start the client
+     * @param ipAddress ip address of server that is localhost in this program
+     * @param port port that server is running on it
+     */
     public void startClient(String ipAddress, int port){
         try (Socket socket = new Socket(ipAddress,port);
              DataInputStream in = new DataInputStream(socket.getInputStream());
