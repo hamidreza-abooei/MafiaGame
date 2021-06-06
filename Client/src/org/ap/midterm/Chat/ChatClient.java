@@ -11,18 +11,15 @@ public class ChatClient implements Runnable{
 
     private String host;
     private int port;
-    private String username;
 
     /**
      * constructor
      * @param host host ip address
      * @param port port
-     * @param username username of client
      */
-    public ChatClient(String host, int port, String username ){
+    public ChatClient(String host, int port ){
         this.host = host;
         this.port = port;
-        this.username = username;
     }
 
     /**
@@ -32,7 +29,7 @@ public class ChatClient implements Runnable{
     public void run() {
         try (Socket socket = new Socket(host , port)){
             Thread readThread = new Thread(new ReadThread(socket));
-            Thread writeThread = new Thread(new WriteThread(socket , username));
+            Thread writeThread = new Thread(new WriteThread(socket));
             readThread.start();
             writeThread.start();
         }catch (IOException e){

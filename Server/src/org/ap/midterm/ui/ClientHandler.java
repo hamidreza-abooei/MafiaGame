@@ -104,4 +104,12 @@ public class ClientHandler implements Runnable{
     public void readFromClient(String string){
         gameManager.readFromClient(string);
     }
+
+    /**
+     * get connection socket
+     * @return connection socket
+     */
+    public Socket getConnection() {
+        return connection;
+    }
 }

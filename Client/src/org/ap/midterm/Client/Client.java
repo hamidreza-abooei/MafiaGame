@@ -39,8 +39,7 @@ public class Client {
                     out.writeUTF(entered);
                 }else if (read.equalsIgnoreCase("startChat")){
                     String chatPort = in.readUTF();
-                    String username = in.readUTF();
-                    ChatClient chatClient = new ChatClient(ipAddress,Integer.parseInt(chatPort),username);
+                    ChatClient chatClient = new ChatClient(ipAddress,Integer.parseInt(chatPort));
                     Thread chatClientThread = new Thread(chatClient);
                     chatClientThread.start();
                 }else{

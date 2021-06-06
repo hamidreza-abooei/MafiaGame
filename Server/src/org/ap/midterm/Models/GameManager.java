@@ -3,6 +3,8 @@ package org.ap.midterm.Models;
 import org.ap.midterm.dependencies.GameInitiator;
 import org.ap.midterm.ui.ChatServer;
 import org.ap.midterm.ui.ClientHandler;
+
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 /**
@@ -10,20 +12,25 @@ import java.util.HashMap;
  */
 public class GameManager implements Runnable {
     // Fields
-    GameState gameState;
-    GameLoop gameLoop;
-    ChatServer chatServer;
-    int playerCount;
-
+    private GameState gameState;
+    private GameLoop gameLoop;
+    private ChatServer chatServer;
+    private ChatServer mafiaChatServer;
+    private int playerCount;
+    private int chatServerPort;
+    private int mafiaChatServerPort;
     /**
-     * Constructor
+     * Constructor and initiator
      * @param playerCount the number of players
      */
     public GameManager(int playerCount){
         gameState = new GameState();
         gameLoop = new GameLoop(this);
         this.playerCount = playerCount;
-        chatServer = new ChatServer();
+        chatServerPort = 2585;
+        mafiaChatServerPort = 8654;
+        chatServer = new ChatServer(chatServerPort);
+        mafiaChatServer = new ChatServer(mafiaChatServerPort);
     }
 
     /**
@@ -71,10 +78,21 @@ public class GameManager implements Runnable {
     /**
      * start mafia chat room
      */
-    public void startMafiaChatRoom(){
+    public void startMafiaChatRoom() {
         ArrayList<ClientHandler> mafias = gameState.getMafiaClientHandler();
+//        mafiaChatServer.addClientHandlers(mafias);
+        try {
+            Thread mafiaChat = new Thread(mafiaChatServer);
+            mafiaChat.start();
+            Thread.sleep(60000);
+            mafiaChatServer.closeServer();
+        } catch (InterruptedException e) {
+            System.err.println("Interrupted");
+        }
 
     }
+
+
 
     /**
      * run the thread
