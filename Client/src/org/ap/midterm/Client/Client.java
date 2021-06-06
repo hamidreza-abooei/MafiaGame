@@ -35,7 +35,9 @@ public class Client {
                 if (read.equalsIgnoreCase( "read")){
                     String entered = scanner.nextLine();
                     out.writeUTF(entered);
-                }else{
+                }else if (read.equalsIgnoreCase("chat")){
+
+                    }else{
                     System.out.println(read);
                     if (read.equalsIgnoreCase("end")){
                         out.writeUTF("end");
