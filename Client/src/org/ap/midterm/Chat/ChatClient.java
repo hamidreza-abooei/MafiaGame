@@ -32,7 +32,7 @@ public class ChatClient implements Runnable{
     public void run() {
         try (Socket socket = new Socket(host , port)){
             Thread readThread = new Thread(new ReadThread(socket));
-            Thread writeThread = new Thread(new WriteThread(socket));
+            Thread writeThread = new Thread(new WriteThread(socket , username));
             readThread.start();
             writeThread.start();
         }catch (IOException e){

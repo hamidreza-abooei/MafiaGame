@@ -1,5 +1,7 @@
 package org.ap.midterm.Client;
 
+import org.ap.midterm.Chat.ChatClient;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -35,9 +37,13 @@ public class Client {
                 if (read.equalsIgnoreCase( "read")){
                     String entered = scanner.nextLine();
                     out.writeUTF(entered);
-                }else if (read.equalsIgnoreCase("chat")){
-
-                    }else{
+                }else if (read.equalsIgnoreCase("startChat")){
+                    String chatPort = in.readUTF();
+                    String username = in.readUTF();
+                    ChatClient chatClient = new ChatClient(ipAddress,Integer.parseInt(chatPort),username);
+                    Thread chatClientThread = new Thread(chatClient);
+                    chatClientThread.start();
+                }else{
                     System.out.println(read);
                     if (read.equalsIgnoreCase("end")){
                         out.writeUTF("end");

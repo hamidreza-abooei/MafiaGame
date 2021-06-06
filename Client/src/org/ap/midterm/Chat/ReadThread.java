@@ -1,5 +1,7 @@
 package org.ap.midterm.Chat;
 
+import java.io.DataInputStream;
+import java.io.IOException;
 import java.net.Socket;
 
 /**
@@ -22,6 +24,10 @@ public class ReadThread implements Runnable{
      */
     @Override
     public void run() {
-
+        try (DataInputStream in = new DataInputStream(connection.getInputStream())){
+            System.out.println(in.readUTF());
+        } catch (IOException e) {
+            System.err.println("Error in I/O has been occurred");
+        }
     }
 }
