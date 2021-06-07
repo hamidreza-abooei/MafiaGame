@@ -51,6 +51,7 @@ public class GameManager implements Runnable {
         ArrayList<Player> players = gameState.getPlayers();
         int counter = 0;
         for (ClientHandler client: clientHandlers.values()) {
+            client.startWriting("clientRule");
             client.startWriting(players.get(counter).toString());
             counter ++;
         }
@@ -81,14 +82,20 @@ public class GameManager implements Runnable {
     public void startMafiaChatRoom() {
         ArrayList<ClientHandler> mafias = gameState.getMafiaClientHandler();
 //        mafiaChatServer.addClientHandlers(mafias);
-        try {
+//        try {
             Thread mafiaChat = new Thread(mafiaChatServer);
             mafiaChat.start();
-            Thread.sleep(60000);
-            mafiaChatServer.closeServer();
-        } catch (InterruptedException e) {
-            System.err.println("Interrupted");
+        for (ClientHandler mafia: mafias) {
+            mafia.startWriting("startChat");
+            mafia.startWriting(mafia.getUsername());
+            mafia.startWriting(String.valueOf(mafiaChatServerPort));
+
         }
+//            Thread.sleep(60000);
+//            mafiaChatServer.closeServer();
+//        } catch (InterruptedException e) {
+//            System.err.println("Interrupted");
+//        }
 
     }
 

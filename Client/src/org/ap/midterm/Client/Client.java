@@ -14,6 +14,7 @@ import java.util.Scanner;
  * @author Hamidreza Abooei
  */
 public class Client {
+    private String rule;
     /**
      * constructor
      */
@@ -32,16 +33,22 @@ public class Client {
              DataOutputStream out = new DataOutputStream(socket.getOutputStream())){
             Scanner scanner = new Scanner(System.in);
             System.out.println("Connected to server.");
+
             while (true){
                 String read = in.readUTF();
                 if (read.equalsIgnoreCase( "read")){
                     String entered = scanner.nextLine();
                     out.writeUTF(entered);
                 }else if (read.equalsIgnoreCase("startChat")){
+                    String username = in.readUTF();
                     String chatPort = in.readUTF();
-                    ChatClient chatClient = new ChatClient(ipAddress,Integer.parseInt(chatPort));
+
+                    ChatClient chatClient = new ChatClient(ipAddress,Integer.parseInt(chatPort) , username , rule);
                     Thread chatClientThread = new Thread(chatClient);
                     chatClientThread.start();
+                }else if(read.equalsIgnoreCase("clientRule")){
+                    rule = in.readUTF();
+                    System.out.println("Your rule is :" + rule);
                 }else{
                     System.out.println(read);
                     if (read.equalsIgnoreCase("end")){

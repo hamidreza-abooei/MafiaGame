@@ -42,6 +42,9 @@ public class ChatServer implements Runnable{
      * start server
      */
     private void startChat(){
+        Timer timer = new Timer(this);
+        Thread timerThread = new Thread(timer);
+        timerThread.start();
         try (ServerSocket chatServerSocket = new ServerSocket(port)) {
             ExecutorService pool = Executors.newCachedThreadPool();
                 System.out.println("Server with port : " + port + " Started \nWaiting for Client .....");
@@ -51,9 +54,6 @@ public class ChatServer implements Runnable{
                     pool.execute(chatClientHandlers.get(clientNumber-1));
                     System.out.println("Chat Server connected to new Client [Client-" + clientNumber + "]");
                     clientNumber++;
-//                    if(clientNumber > playerCount){
-//
-//                    }
                 }
                 pool.shutdown();
         } catch (IOException e) {
@@ -68,7 +68,7 @@ public class ChatServer implements Runnable{
     /**
      * broadcast message to other clients in the chat room
      */
-    private void broadcast(String message){
+    public void broadcast(String message){
         for (ChatClientHandler chatClient: chatClientHandlers){
             chatClient.sendMessage(message);
         }
@@ -80,10 +80,18 @@ public class ChatServer implements Runnable{
 //        }
 //    }
 
+    /**
+     * close server
+     */
     public void closeServer(){
+        broadcast("stopChatClients");
         running = false;
         notifyAll();
     }
+
+    /**
+     * run this thread
+     */
     @Override
     public void run() {
         running = true;

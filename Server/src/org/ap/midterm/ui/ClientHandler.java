@@ -112,4 +112,12 @@ public class ClientHandler implements Runnable{
     public Socket getConnection() {
         return connection;
     }
+
+    /**
+     * get username
+     * @return username
+     */
+    public String getUsername(){
+        return username;
+    }
 }
