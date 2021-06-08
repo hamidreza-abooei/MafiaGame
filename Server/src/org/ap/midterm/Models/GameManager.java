@@ -1,10 +1,9 @@
 package org.ap.midterm.Models;
 
 import org.ap.midterm.dependencies.GameInitiator;
-import org.ap.midterm.ui.ChatServer;
+import org.ap.midterm.ui.Chat.ChatServer;
 import org.ap.midterm.ui.ClientHandler;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 /**
@@ -79,13 +78,14 @@ public class GameManager implements Runnable {
     /**
      * start mafia chat room
      */
-    public void startMafiaChatRoom() {
+    public synchronized void startMafiaChatRoom() {
         ArrayList<ClientHandler> mafias = gameState.getMafiaClientHandler();
 //        mafiaChatServer.addClientHandlers(mafias);
 //        try {
             Thread mafiaChat = new Thread(mafiaChatServer);
             mafiaChat.start();
         for (ClientHandler mafia: mafias) {
+            System.out.println("mafia: " + mafia.getUsername() );
             mafia.startWriting("startChat");
             mafia.startWriting(mafia.getUsername());
             mafia.startWriting(String.valueOf(mafiaChatServerPort));

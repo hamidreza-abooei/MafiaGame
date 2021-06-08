@@ -1,4 +1,4 @@
-package org.ap.midterm.ui;
+package org.ap.midterm.ui.Chat;
 
 import java.io.*;
 import java.net.Socket;
@@ -33,24 +33,31 @@ public class ChatClientHandler implements Runnable{
         try (DataInputStream in = new DataInputStream(connection.getInputStream());
              DataOutputStream out = new DataOutputStream(connection.getOutputStream())){
 
-            writer = new PrintWriter(out , true);
-            username = in.readUTF();
-            rule = in.readUTF();
-            Thread.sleep(1000);
-            server.broadcast(username + " connected." + "[" + rule + "]");
-            while (true){
-                String clientMessage = in.readUTF();
-                String serverMessage = "[" + username + "]: " + clientMessage;
-                server.broadcast(serverMessage);
-            }
+//            writer = new PrintWriter(out , true);
+//            System.out.println("chat client initiated. waiting for username...");
+//            username = in.readUTF();
+//            System.out.println("username: " + username);
+//            System.out.println("waiting for rule...");
+//            rule = in.readUTF();
+//            System.out.println("rule: " + rule);
+            System.out.println("send message");
+            out.writeUTF("hello");
+            System.out.println("message has been sent");
+//            Thread.sleep(1000);
+//            server.broadcast(username + " connected." + "[" + rule + "]");
+//            while (true){
+//                String clientMessage = in.readUTF();
+//                String serverMessage = "[" + username + "]: " + clientMessage;
+//                server.broadcast(serverMessage);
+//            }
 
 
 
         } catch (IOException e) {
             System.err.println("error has been occurred in I/O.");
-        } catch (InterruptedException e) {
-            System.err.println("interrupt has been occurred.");
-        }
+        } //catch (InterruptedException e) {
+//            System.err.println("interrupt has been occurred.");
+//        }
     }
 
     /**

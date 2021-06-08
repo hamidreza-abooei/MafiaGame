@@ -1,8 +1,7 @@
-package org.ap.midterm.ui;
+package org.ap.midterm.ui.Chat;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -41,13 +40,13 @@ public class ChatServer implements Runnable{
     /**
      * start server
      */
-    private void startChat(){
-        Timer timer = new Timer(this);
-        Thread timerThread = new Thread(timer);
-        timerThread.start();
+    private synchronized void startChat(){
+//        Timer timer = new Timer(this);
+//        Thread timerThread = new Thread(timer);
+//        timerThread.start();
         try (ServerSocket chatServerSocket = new ServerSocket(port)) {
             ExecutorService pool = Executors.newCachedThreadPool();
-                System.out.println("Server with port : " + port + " Started \nWaiting for Client .....");
+                System.out.println("Chat Server with port : " + port + " Started \nWaiting for Client .....");
                 int clientNumber = 1;
                 while (running){
                     chatClientHandlers.add(new ChatClientHandler(chatServerSocket.accept() , this));
@@ -83,7 +82,7 @@ public class ChatServer implements Runnable{
     /**
      * close server
      */
-    public void closeServer(){
+    public synchronized void closeServer(){
         broadcast("stopChatClients");
         running = false;
         notifyAll();

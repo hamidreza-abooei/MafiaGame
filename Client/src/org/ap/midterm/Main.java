@@ -1,5 +1,6 @@
 package org.ap.midterm;
 
+import org.ap.midterm.Chat.ChatClient;
 import org.ap.midterm.Client.Client;
 /**
  * @author Hamidreza Abooei
@@ -10,8 +11,10 @@ public class Main {
      * @param args input argument
      */
     public static void main(String[] args) {
-        Client client = new Client();
-        client.startClient("127.0.0.1" , 8080);
-
+//        Client client = new Client();
+//        client.startClient("127.0.0.1" , 8080);
+        ChatClient chatClient = new ChatClient("localhost" , 6050 , "Ali" , "Godfather");
+        Thread chatClientThread = new Thread(chatClient);
+        chatClientThread.start();
     }
 }

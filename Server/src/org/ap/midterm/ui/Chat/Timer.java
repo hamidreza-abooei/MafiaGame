@@ -1,4 +1,6 @@
-package org.ap.midterm.ui;
+package org.ap.midterm.ui.Chat;
+
+import org.ap.midterm.ui.Chat.ChatServer;
 
 /**
  * @author Hamidreza Abooei
