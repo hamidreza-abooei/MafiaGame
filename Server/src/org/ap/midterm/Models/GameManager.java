@@ -28,8 +28,8 @@ public class GameManager implements Runnable {
         this.playerCount = playerCount;
         chatServerPort = 2585;
         mafiaChatServerPort = 8654;
-        chatServer = new ChatServer(chatServerPort);
-        mafiaChatServer = new ChatServer(mafiaChatServerPort);
+        chatServer = new ChatServer(chatServerPort , false);
+        mafiaChatServer = new ChatServer(mafiaChatServerPort , true);
     }
 
     /**

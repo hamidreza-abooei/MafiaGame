@@ -13,7 +13,7 @@ public class Main{
     public static void main(String[] args) {
 //        Server server = new Server();
 //        server.startServer(8080);
-        ChatServer chatServer = new ChatServer(6050);
+        ChatServer chatServer = new ChatServer(6050 , true);
         Thread chatServerThread = new Thread(chatServer);
         chatServerThread.start();
     }

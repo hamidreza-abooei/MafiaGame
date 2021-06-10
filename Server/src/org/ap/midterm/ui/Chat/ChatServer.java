@@ -16,6 +16,7 @@ public class ChatServer implements Runnable{
     private ArrayList<ChatClientHandler> chatClientHandlers;
     private int port;
     private boolean running;
+    private boolean chatPrint;
 //    private int chatNumber;
 
 
@@ -23,9 +24,10 @@ public class ChatServer implements Runnable{
      * constructor
      * @param port port of mafia chat
      */
-    public ChatServer(int port){
+    public ChatServer(int port , boolean chatPrint){
         chatClientHandlers = new ArrayList<>();
         this.port = port;
+        this.chatPrint = chatPrint;
     }
 
 //    /**
@@ -49,7 +51,7 @@ public class ChatServer implements Runnable{
                 System.out.println("Chat Server with port : " + port + " Started \nWaiting for Client .....");
                 int clientNumber = 1;
                 while (running){
-                    chatClientHandlers.add(new ChatClientHandler(chatServerSocket.accept() , this));
+                    chatClientHandlers.add(new ChatClientHandler(chatServerSocket.accept() , this , chatPrint));
                     pool.execute(chatClientHandlers.get(clientNumber-1));
                     System.out.println("Chat Server connected to new Client [Client-" + clientNumber + "]");
                     clientNumber++;

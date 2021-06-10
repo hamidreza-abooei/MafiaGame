@@ -12,14 +12,16 @@ public class ChatClientHandler implements Runnable{
     private PrintWriter writer;
     private String username;
     private String rule;
+    private boolean rulePrint;
 
     /**
      * constructor
      * @param connection connection to Client
      */
-    public ChatClientHandler(Socket connection , ChatServer server){
+    public ChatClientHandler(Socket connection , ChatServer server , boolean rulePrint){
         this.connection = connection;
         this.server = server;
+        this.rulePrint = rulePrint;
     }
 
 
@@ -49,8 +51,8 @@ public class ChatClientHandler implements Runnable{
 //                System.out.print(Character.toString((char) readChar));
             }
 
-            System.out.println("username: " + username);
-            System.out.println("waiting for rule...");
+//            System.out.println("username: " + username);
+//            System.out.println("waiting for rule...");
 //            rule = in.readUTF();
             rule = "";
             while (true){
@@ -65,8 +67,8 @@ public class ChatClientHandler implements Runnable{
 //                System.out.print(Character.toString((char) readChar));
             }
 
-            System.out.println("rule: " + rule);
-            System.out.println("send message");
+//            System.out.println("rule: " + rule);
+//            System.out.println("send message");
 //            System.out.println(username);
 //            System.out.println(rule);
 //            username = username.substring(0,username.length()-1);
@@ -74,7 +76,7 @@ public class ChatClientHandler implements Runnable{
 //            System.out.println("username: " + username);
 //            System.out.println("rule: " + rule);
 //            System.out.print( "hello " + rule + " hi." );
-            String welcomeMessage = "hello " + username + " rule: " + rule;
+            String welcomeMessage = "Chat has been started " + username + " your rule is: " + rule;
 //            System.out.println("this is welcome message:");
 //            System.out.println(welcomeMessage);
 //            System.out.println("this is the end of welcome message");
@@ -86,13 +88,17 @@ public class ChatClientHandler implements Runnable{
             String readString = "";
             while (true){
                 int readChar = in.read();
-                if (readChar == '\n'){
-                    System.out.println(readString);
+                if (readChar == '\r'){
+//                    System.out.println(readString);
+//                    in.read();
+                    in.read(); // for removing \n
                     server.broadcast(readString);
+//                    in.read();
                     readString = "";
-                }
-                readString += (char) readChar;
+                }else {
+                    readString += (char) readChar;
 //                System.out.print(Character.toString((char) readChar));
+                }
             }
 //            Thread.sleep(1000);
 //            server.broadcast(username + " connected." + "[" + rule + "]");
@@ -116,7 +122,14 @@ public class ChatClientHandler implements Runnable{
      * @param message to send
      */
     public void sendMessage(String message){
-        writer.println(message);
+//        System.out.println(rulePrint);
+//        System.out.println(rule);
+//        System.out.println(username);
+
+        if (rulePrint)
+            writer.println("[" + username + ":" + rule + "]: " + message);
+        else
+            writer.println("[" + username + "]: " + message);
     }
 
 }
