@@ -15,6 +15,7 @@ public class MessageWriter implements Runnable{
         Scanner scanner = new Scanner(System.in) ;
         while (running){
             String message = scanner.nextLine();
+//            System.out.println(message);
             chatClient.putMessage(message);
         }
     }

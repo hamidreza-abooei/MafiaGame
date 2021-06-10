@@ -1,5 +1,6 @@
 package org.ap.midterm.Chat;
 
+import javax.xml.crypto.Data;
 import java.io.*;
 import java.net.Socket;
 
@@ -38,12 +39,38 @@ public class ChatClient implements Runnable{
      */
     @Override
     public synchronized void run() {
+        MessageWriter messageWriter = new MessageWriter(this);
+        Thread messageWriterThread = new Thread(messageWriter);
+        messageWriterThread.start();
         try (Socket socket = new Socket(host , port)){
 //            conn = socket;
             System.out.println(socket);
             InputStream input = socket.getInputStream();
-            writer = new PrintWriter(socket.getOutputStream());
+            OutputStream output = socket.getOutputStream();
+            writer = new PrintWriter(output , true);
+            while (true){
+                String readString = "";
+                int read;
+                do {
+//                    System.out.println("here");
+                    read = input.read();
+                    readString += (char) read;
+//                    System.out.println("sth red");
+                }while ((char) read != '\n' );
+//                System.out.println("new string");
+                System.out.println(readString);
+//                System.out.println(read);
+//    `           writer.println();
+//                writer.println("hi");
+//                System.out.println("hi sent to server");
+                if (readString.equalsIgnoreCase("endChat")){
+                    messageWriter.stopWriting();
+                    break;
+                }
 
+
+
+            }
 //            reader = new BufferedReader(new InputStreamReader(input));
 //
 //            String response = reader.readLine();
@@ -73,7 +100,9 @@ public class ChatClient implements Runnable{
 //    }
     public void putMessage(String message){
 //        this.message = message;
+//        System.out.println(message + "putMessage");
         writer.println(message);
+//        System.out.println("Message has been sent.");
     }
 
 }

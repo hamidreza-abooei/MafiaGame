@@ -30,10 +30,10 @@ public class ChatClientHandler implements Runnable{
      */
     @Override
     public void run() {
-        try (DataInputStream in = new DataInputStream(connection.getInputStream());
-             DataOutputStream out = new DataOutputStream(connection.getOutputStream())){
+        try (InputStream in = connection.getInputStream();
+             OutputStream out = connection.getOutputStream()){
 
-//            writer = new PrintWriter(out , true);
+            writer = new PrintWriter(out , true);
 //            System.out.println("chat client initiated. waiting for username...");
 //            username = in.readUTF();
 //            System.out.println("username: " + username);
@@ -41,8 +41,24 @@ public class ChatClientHandler implements Runnable{
 //            rule = in.readUTF();
 //            System.out.println("rule: " + rule);
             System.out.println("send message");
-            out.writeUTF("hello");
+            writer.println("hello");
             System.out.println("message has been sent");
+//            System.out.println(in.read());
+//            System.out.println("message readed");
+//            System.out.println(in.read());
+            String readString = "";
+            while (true){
+                int readChar = in.read();
+                if (readChar == '\n'){
+                    System.out.println(readString);
+                    server.broadcast(readString);
+                    readString = "";
+                }
+                readString += (char) readChar;
+//                System.out.print(Character.toString((char) readChar));
+
+
+            }
 //            Thread.sleep(1000);
 //            server.broadcast(username + " connected." + "[" + rule + "]");
 //            while (true){
