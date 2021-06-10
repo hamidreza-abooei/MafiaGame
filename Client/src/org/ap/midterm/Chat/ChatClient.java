@@ -48,17 +48,25 @@ public class ChatClient implements Runnable{
             InputStream input = socket.getInputStream();
             OutputStream output = socket.getOutputStream();
             writer = new PrintWriter(output , true);
+            writer.println(username);
+            writer.println(rule);
+            String readString;
             while (true){
-                String readString = "";
-                int read;
+                readString ="";
+                int read ;
                 do {
 //                    System.out.println("here");
                     read = input.read();
+//                    System.out.println(read);
+//                    System.out.println("char: " + (char) read);
                     readString += (char) read;
+//                    System.out.println(readString);
 //                    System.out.println("sth red");
-                }while ((char) read != '\n' );
+
+                } while ((char) read != '\n');
 //                System.out.println("new string");
-                System.out.println(readString);
+                System.out.print(readString);
+//                System.out.println("that was the new string ``");
 //                System.out.println(read);
 //    `           writer.println();
 //                writer.println("hi");
