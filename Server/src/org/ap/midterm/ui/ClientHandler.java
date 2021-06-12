@@ -79,7 +79,7 @@ public class ClientHandler implements Runnable{
      * write message to client
      * @return message to send to client
      */
-    private String writeToClient(){
+    private synchronized String writeToClient(){
         try {
             wait();
         } catch (InterruptedException e) {
@@ -94,7 +94,7 @@ public class ClientHandler implements Runnable{
      */
     public synchronized void startWriting(String message){
         this.message = message;
-        notifyAll();
+        notify();
     }
 
     /**
