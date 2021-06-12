@@ -14,6 +14,7 @@ public class Timer implements Runnable{
      */
     public Timer(ChatServer server){
         this.server = server;
+        System.out.println("timer added");
     }
 
     /**
@@ -22,7 +23,9 @@ public class Timer implements Runnable{
     @Override
     public void run() {
         try {
+            System.out.println("timer initiated");
             Thread.sleep(18000);
+            System.out.println("timer ended");
             server.closeServer();
         } catch (InterruptedException e) {
             System.err.println("Timer interrupted");

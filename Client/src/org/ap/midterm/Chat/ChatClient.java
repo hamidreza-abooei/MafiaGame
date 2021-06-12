@@ -65,20 +65,29 @@ public class ChatClient implements Runnable{
 
                 } while ((char) read != '\n');
 //                System.out.println("new string");
-                System.out.print(readString);
+
 //                System.out.println("that was the new string ``");
 //                System.out.println(read);
 //    `           writer.println();
 //                writer.println("hi");
 //                System.out.println("hi sent to server");
-                if (readString.equalsIgnoreCase("endChat")){
+                if (readString.equalsIgnoreCase("stopChatClients\r\n")){
                     messageWriter.stopWriting();
+                    messageWriterThread.interrupt();
+//                    messageWriterThread.stop();
                     break;
                 }
+
+                System.out.print(readString);
 
 
 
             }
+            input.close();
+            output.close();
+            socket.close();
+            System.out.println("close all");
+            System.out.println("type some thing to resume");
 //            reader = new BufferedReader(new InputStreamReader(input));
 //
 //            String response = reader.readLine();

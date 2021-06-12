@@ -92,7 +92,13 @@ public class ChatClientHandler implements Runnable{
 //                    System.out.println(readString);
 //                    in.read();
                     in.read(); // for removing \n
-                    server.broadcast(readString);
+
+                    if (rulePrint)
+                        server.broadcast("[" + username + ":" + rule + "]: " + readString);
+                    else
+                        server.broadcast("[" + username + "]: " + readString);
+
+//                    server.broadcast(readString);
 //                    in.read();
                     readString = "";
                 }else {
@@ -125,11 +131,9 @@ public class ChatClientHandler implements Runnable{
 //        System.out.println(rulePrint);
 //        System.out.println(rule);
 //        System.out.println(username);
+        writer.println(message);
 
-        if (rulePrint)
-            writer.println("[" + username + ":" + rule + "]: " + message);
-        else
-            writer.println("[" + username + "]: " + message);
+
     }
 
 }

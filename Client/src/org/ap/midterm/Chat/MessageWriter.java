@@ -16,10 +16,12 @@ public class MessageWriter implements Runnable{
         while (running){
             String message = scanner.nextLine();
 //            System.out.println(message);
+//            System.out.println(message);
             chatClient.putMessage(message);
         }
     }
     public void stopWriting(){
         running = false;
+//        notifyAll();
     }
 }

@@ -43,9 +43,9 @@ public class ChatServer implements Runnable{
      * start server
      */
     private synchronized void startChat(){
-//        Timer timer = new Timer(this);
-//        Thread timerThread = new Thread(timer);
-//        timerThread.start();
+        Timer timer = new Timer(this);
+        Thread timerThread = new Thread(timer);
+        timerThread.start();
         try (ServerSocket chatServerSocket = new ServerSocket(port)) {
             ExecutorService pool = Executors.newCachedThreadPool();
                 System.out.println("Chat Server with port : " + port + " Started \nWaiting for Client .....");
@@ -84,10 +84,11 @@ public class ChatServer implements Runnable{
     /**
      * close server
      */
-    public synchronized void closeServer(){
+    public void closeServer(){
+        System.out.println("end and close server");
         broadcast("stopChatClients");
         running = false;
-        notifyAll();
+//        notifyAll();
     }
 
     /**
