@@ -43,7 +43,7 @@ public class GameManager implements Runnable {
     /**
      * play the Mafia Game
      */
-    public void play(){
+    public synchronized void play(){
         GameInitiator gameInitiator = new GameInitiator(playerCount);
         gameState.addPlayers(gameInitiator.initiatePlayers());
         HashMap<String , ClientHandler> clientHandlers = gameState.getClientHandlerHashMap();
@@ -52,6 +52,7 @@ public class GameManager implements Runnable {
         for (ClientHandler client: clientHandlers.values()) {
             client.startWriting("clientRule");
             client.startWriting(players.get(counter).toString());
+            System.out.println("Manager before loop: " + players.get(counter).toString());
             counter ++;
         }
         gameLoop.start();
@@ -88,6 +89,7 @@ public class GameManager implements Runnable {
             System.out.println("mafia: " + mafia.getUsername() );
             mafia.startWriting("startChat");
             mafia.startWriting(mafia.getUsername());
+            System.out.println("mafiachat start: " + mafia.getUsername());
             mafia.startWriting(String.valueOf(mafiaChatServerPort));
 
         }

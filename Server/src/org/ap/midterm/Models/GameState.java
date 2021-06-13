@@ -59,7 +59,7 @@ public class GameState {
      * kill player
      * @param playerIndex the player index to kill
      */
-    public void killPlayer(int playerIndex) {
+    public synchronized void killPlayer(int playerIndex) {
         players.get(playerIndex).die();
     }
 
@@ -75,7 +75,7 @@ public class GameState {
      * get Mafias client handlers
      * @return ArrayList of Client handlers
      */
-    public ArrayList<ClientHandler> getMafiaClientHandler(){
+    public synchronized ArrayList<ClientHandler> getMafiaClientHandler(){
         ArrayList<ClientHandler> mafiaClientHandlers = new ArrayList<>();
         ArrayList<String> mafiaUserNames =getMafiaUserNames();
         for (String username : mafiaUserNames) {
@@ -88,7 +88,7 @@ public class GameState {
      * get mafias client username
      * @return ArrayList of Usernames
      */
-    public ArrayList<String> getMafiaUserNames(){
+    public synchronized ArrayList<String> getMafiaUserNames(){
         ArrayList<String> mafiaUserNames = new ArrayList<>();
         for (int i = 0; i < players.size(); i++) {
             if (players.get(i) instanceof Mafia){

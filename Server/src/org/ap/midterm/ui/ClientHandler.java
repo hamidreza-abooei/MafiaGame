@@ -5,6 +5,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.*;
+
 /**
  * @author Hamidreza Abooei
  */
@@ -15,7 +17,7 @@ public class ClientHandler implements Runnable{
     private String username;
     private GameManager gameManager;
     private GameStarter gameStarter;
-    private String message;
+    private ArrayList<String> message;
 
     /**
      * Constructor
@@ -25,6 +27,7 @@ public class ClientHandler implements Runnable{
      * @param gameStarter the game starter
      */
     public ClientHandler(Socket connection , int clientID, GameManager gameManager, GameStarter gameStarter){
+        this.message = new ArrayList<>();
         this.clientID = clientID;
         this.connection = connection;
         this.gameManager = gameManager;
@@ -75,26 +78,35 @@ public class ClientHandler implements Runnable{
         return gameManager.checkUsername(username,this);
     }
 
-    /**
-     * write message to client
-     * @return message to send to client
-     */
-    private synchronized String writeToClient(){
-        try {
-            wait();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return message;
-    }
 
     /**
      * get message from game and put to message param to write in to client
      * @param message get message from game
      */
     public synchronized void startWriting(String message){
-        this.message = message;
+        this.message.add(message);
         notify();
+        try {
+            wait();
+        } catch (InterruptedException e) {
+            System.out.println("message didn't sent");
+        }
+    }
+
+    /**
+     * write message to client
+     * @return message to send to client
+     */
+    private synchronized String writeToClient(){
+        try {
+            notify();
+            wait();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        String send = this.message.get(0);
+        this.message.remove(0);
+        return send;
     }
 
     /**
