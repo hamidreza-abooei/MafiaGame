@@ -40,8 +40,12 @@ public class Client {
                     String entered = scanner.nextLine();
                     out.writeUTF(entered);
                 }else if (read.equalsIgnoreCase("startChat")){
+                    System.out.println("server should send my username");
                     String username = in.readUTF();
+                    System.out.println("your username is: " + username );
+                    System.out.println("server should send me my port");
                     String chatPort = in.readUTF();
+                    System.out.println("your rule is: " + chatPort);
 
                     ChatClient chatClient = new ChatClient(ipAddress,Integer.parseInt(chatPort) , username , rule);
                     Thread chatClientThread = new Thread(chatClient);

@@ -34,7 +34,7 @@ public class WriteThread implements Runnable{
      * Run this thread
      */
     @Override
-    public void run() {
+    public synchronized void run() {
         try (DataOutputStream out = new DataOutputStream(connection.getOutputStream())){
             out.writeUTF(username);
             out.writeUTF(rule);
@@ -42,11 +42,11 @@ public class WriteThread implements Runnable{
                 out.writeUTF( scanner.nextLine());
             }
         } catch (IOException e) {
-            System.err.println("Error in I/O has been occurred");
+            System.err.println("Error in write thread I/O has been occurred");
         }
 
     }
-    public void stopThisThread(){
+    public synchronized void stopThisThread(){
         running = false;
         notifyAll();
     }
