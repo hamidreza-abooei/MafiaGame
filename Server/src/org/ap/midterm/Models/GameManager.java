@@ -96,8 +96,12 @@ public class GameManager implements Runnable {
             mafia.startWriting(mafia.getUsername());
             mafia.startWriting(String.valueOf(mafiaChatServerPort));
         }
-
-
+    }
+    public synchronized void mafiaBroadcastMessage(String message){
+        ArrayList<ClientHandler> mafias = gameState.getMafiaClientHandler();
+        for (ClientHandler mafia: mafias) {
+            mafia.startWriting(message);
+        }
     }
 
     /**
@@ -107,6 +111,17 @@ public class GameManager implements Runnable {
         gameRules.applyGameRules();
     }
 
+    /**
+     * broadcast message
+     * @param message to send to all clients
+     */
+    public synchronized void broadcastMessage(String message){
+        ArrayList<ClientHandler> allClientHandlers = gameState.getAllClientHandlers();
+        for (ClientHandler clientHandler: allClientHandlers) {
+            clientHandler.startWriting(message);
+        }
+
+    }
 
     /**
      * run the thread

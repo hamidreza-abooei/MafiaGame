@@ -128,4 +128,12 @@ public class GameState {
     public void setGameMode(GameMode gameMode) {
         this.gameMode = gameMode;
     }
+
+    public ArrayList<ClientHandler> getAllClientHandlers(){
+        ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
+        for (String username : usernames) {
+            clientHandlers.add(clientHandlerHashMap.get(username));
+        }
+        return clientHandlers;
+    }
 }
