@@ -1,5 +1,7 @@
 package org.ap.midterm.ui.Chat;
 
+import org.ap.midterm.Models.GameManager;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
@@ -16,24 +18,27 @@ public class ChatServer implements Runnable{
     private int port;
     private boolean running;
     private boolean chatPrint;
+    private GameManager gameManager;
 
     /**
      * constructor
      * @param port port of mafia chat
      * @param chatPrint print player rule or not
+     * @param gameManager game manager
      */
-    public ChatServer(int port , boolean chatPrint){
+    public ChatServer(int port , boolean chatPrint ,GameManager gameManager){
         chatClientHandlers = new ArrayList<>();
         this.port = port;
         this.chatPrint = chatPrint;
+        this.gameManager = gameManager;
     }
 
     /**
      * start server
      */
     private synchronized void startChat(){
-        Timer timer = new Timer(this , 60);
-        Thread timerThread = new Thread(timer);
+        ChatTimer chatTimer = new ChatTimer(this , 60);
+        Thread timerThread = new Thread(chatTimer);
         timerThread.start();
         try (ServerSocket chatServerSocket = new ServerSocket(port)) {
             ExecutorService pool = Executors.newCachedThreadPool();
@@ -71,7 +76,9 @@ public class ChatServer implements Runnable{
      */
     public void closeServer(){
         broadcast("stopChatClients");
+        System.out.println("stopChatClients");
         running = false;
+        gameManager.resumeGameLoop();
     }
 
     /**

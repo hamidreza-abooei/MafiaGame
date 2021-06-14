@@ -1,5 +1,6 @@
 package org.ap.midterm.Models;
 
+import org.ap.midterm.Models.Citizen.Citizen;
 import org.ap.midterm.Models.Mafia.Mafia;
 import org.ap.midterm.ui.ClientHandler;
 import java.util.ArrayList;
@@ -47,6 +48,8 @@ public class GameState {
      * @return is it registered or not
      */
     public synchronized boolean checkUsername(String username,ClientHandler clientHandler){
+        if (username.length()<2)
+            return false;
         for (String anyUsername: clientHandlerHashMap.keySet()) {
             if(anyUsername.equalsIgnoreCase(username)){
                 return false;
@@ -60,8 +63,14 @@ public class GameState {
      * kill player
      * @param playerIndex the player index to kill
      */
-    public synchronized void killPlayer(int playerIndex) {
-        players.get(playerIndex).die();
+    public synchronized void killPlayer(String usernameToKill) {
+        int counter = 0;
+        for (String username:usernames){
+            if (username.equalsIgnoreCase(usernameToKill))
+                break;
+            counter++;
+        }
+        players.get(counter).die();
     }
 
     /**
@@ -135,5 +144,21 @@ public class GameState {
             clientHandlers.add(clientHandlerHashMap.get(username));
         }
         return clientHandlers;
+    }
+
+    /**
+     * get alive citizens
+     * @return alive citizens
+     */
+    public ArrayList<String> getAliveCitizens(){
+        int counter = 0;
+        ArrayList<String> aliveCitizens = new ArrayList<>();
+        for(String username:usernames){
+            if (players.get(counter) instanceof Citizen)
+                if (players.get(counter).isAlive())
+                    aliveCitizens.add(username);
+            counter++;
+        }
+        return aliveCitizens;
     }
 }

@@ -56,6 +56,7 @@ public class ClientHandler implements Runnable{
                 out.writeUTF(input);
                 if (input.equalsIgnoreCase("read")){
                     String readOfClient = in.readUTF();
+                    System.out.println(readOfClient);
                     readFromClient(readOfClient);
                 }
                 if( input.equalsIgnoreCase("end")){
@@ -115,6 +116,7 @@ public class ClientHandler implements Runnable{
      */
     public void readFromClient(String string){
         gameManager.readFromClient(string);
+        System.out.println("this used");
     }
 
     /**

@@ -1,10 +1,13 @@
 package org.ap.midterm.Models;
 
+import java.util.ArrayList;
+
 /**
  * @author Hamidreza Abooei
  */
 public class GameLoop {
     GameManager gameManager;
+    LoopTimer loopTimer;
 //    GameState gameState;
 
     /**
@@ -13,6 +16,7 @@ public class GameLoop {
      */
     public GameLoop(GameManager gameManager){
         this.gameManager = gameManager;
+
     }
 
     /**
@@ -32,8 +36,26 @@ public class GameLoop {
     /**
      * things that should be done in the first night
      */
-    private void firstNight(){
-        gameManager.startMafiaChatRoom();
+    private synchronized void firstNight(){
+        try {
+            gameManager.setGameMode(GameMode.NIGHT);
+            gameManager.startMafiaChatRoom();
+            wait();
+
+            gameManager.mafiaBroadcastMessage("Select User to kill.");
+            ArrayList<String> usernames = gameManager.getAliveCitizens();
+            for (int i = 0; i < usernames.size(); i++) {
+                gameManager.mafiaBroadcastMessage(i + "- " + usernames.get(i));
+            }
+            Thread.sleep(1000);
+            gameManager.mafiaBroadcastMessage("read");
+
+            startTimer(60);
+            wait();
+        } catch (InterruptedException e) {
+            System.out.println("interrupted");
+        }
+
 
     }
 
@@ -63,6 +85,18 @@ public class GameLoop {
      */
     public void applyChanges(){
         gameManager.applyChanges();
+    }
+
+    private void startTimer(int length){
+        Thread timerThread = new Thread(new LoopTimer(this,length));
+        timerThread.start();
+    }
+
+    /**
+     * resume
+     */
+    public synchronized void resume(){
+        notify();
     }
 
 

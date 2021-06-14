@@ -10,5 +10,6 @@ public class GodFather extends Mafia {
     public GodFather(){
         super();
         super.setName("GodFather");
+        super.killer = true;
     }
 }

@@ -1,7 +1,5 @@
 package org.ap.midterm;
 
-import org.ap.midterm.ui.Chat.ChatServer;
-import org.ap.midterm.ui.Chat.Timer;
 import org.ap.midterm.ui.Server;
 
 /**

@@ -5,7 +5,7 @@ import org.ap.midterm.ui.Chat.ChatServer;
 /**
  * @author Hamidreza Abooei
  */
-public class Timer implements Runnable{
+public class ChatTimer implements Runnable{
     private ChatServer server;
     private int length;
 
@@ -14,7 +14,7 @@ public class Timer implements Runnable{
      * @param server chat server
      * @param length length second
      */
-    public Timer(ChatServer server , int length){
+    public ChatTimer(ChatServer server , int length){
         this.server = server;
         this.length = length * 1000;
         System.out.println("timer added");
@@ -26,9 +26,9 @@ public class Timer implements Runnable{
     @Override
     public void run() {
         try {
-            System.out.println("timer initiated");
-            Thread.sleep(18000);
-            System.out.println("timer ended");
+//            System.out.println("timer initiated");
+            Thread.sleep(10000);
+            System.out.println("Chat timer ended");
             server.closeServer();
         } catch (InterruptedException e) {
             System.err.println("Timer interrupted");

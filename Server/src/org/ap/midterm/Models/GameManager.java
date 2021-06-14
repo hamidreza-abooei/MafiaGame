@@ -3,7 +3,6 @@ package org.ap.midterm.Models;
 import org.ap.midterm.dependencies.GameInitiator;
 import org.ap.midterm.ui.Chat.ChatServer;
 import org.ap.midterm.ui.ClientHandler;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,8 +30,8 @@ public class GameManager implements Runnable {
         this.playerCount = playerCount;
         chatServerPort = 2585;
         mafiaChatServerPort = 8654;
-        chatServer = new ChatServer(chatServerPort , false);
-        mafiaChatServer = new ChatServer(mafiaChatServerPort , true);
+        chatServer = new ChatServer(chatServerPort , false , this);
+        mafiaChatServer = new ChatServer(mafiaChatServerPort , true , this);
         gameRules = new GameRules(gameState);
     }
 
@@ -89,14 +88,19 @@ public class GameManager implements Runnable {
      */
     public synchronized void startMafiaChatRoom() {
         ArrayList<ClientHandler> mafias = gameState.getMafiaClientHandler();
-            Thread mafiaChat = new Thread(mafiaChatServer);
-            mafiaChat.start();
+        Thread mafiaChat = new Thread(mafiaChatServer);
+        mafiaChat.start();
         for (ClientHandler mafia: mafias) {
             mafia.startWriting("startChat");
             mafia.startWriting(mafia.getUsername());
             mafia.startWriting(String.valueOf(mafiaChatServerPort));
         }
     }
+
+    /**
+     * mafia broadcast
+     * @param message
+     */
     public synchronized void mafiaBroadcastMessage(String message){
         ArrayList<ClientHandler> mafias = gameState.getMafiaClientHandler();
         for (ClientHandler mafia: mafias) {
@@ -123,11 +127,31 @@ public class GameManager implements Runnable {
 
     }
 
+    public void resumeGameLoop(){
+        gameLoop.resume();
+    }
+
     /**
      * run the thread
      */
     @Override
     public void run() {
         play();
+    }
+
+    /**
+     * set game mode
+     * @param gameMode game mode
+     */
+    public void setGameMode(GameMode gameMode){
+        gameState.setGameMode(gameMode);
+    }
+
+    /**
+     * get alive citizens for mafias
+     * @return Array list of usernames
+     */
+    public ArrayList<String> getAliveCitizens(){
+        return gameState.getAliveCitizens();
     }
 }

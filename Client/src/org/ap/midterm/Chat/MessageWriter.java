@@ -8,6 +8,8 @@ public class MessageWriter implements Runnable{
     // fields
     private boolean running;
     private ChatClient chatClient;
+    private Scanner scanner;
+    private volatile boolean run = true;
 
     /**
      * Constructor
@@ -16,18 +18,21 @@ public class MessageWriter implements Runnable{
     public MessageWriter(ChatClient chatClient){
         this.chatClient = chatClient;
         running = true;
+        scanner = new Scanner(System.in);
     }
 
     /**
      * run this thread
      */
     @Override
-    public void run() {
-        Scanner scanner = new Scanner(System.in) ;
+    public synchronized void run() {
         while (running){
+
             String message = scanner.nextLine();
             chatClient.putMessage(message);
+
         }
+        System.out.println("out of runing");
     }
 
     /**
@@ -35,5 +40,11 @@ public class MessageWriter implements Runnable{
      */
     public void stopWriting(){
         running = false;
+        System.out.println("I am here");
+        run = false;
+//        scanner.notify();
+
+//        scanner.close();
+        System.out.println("out");
     }
 }
