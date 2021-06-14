@@ -8,21 +8,36 @@ import org.ap.midterm.Models.Player;
 
 import java.util.ArrayList;
 import java.util.Collections;
-
+/**
+ * @author Hamidreza Abooei
+ */
 public class GameInitiator {
+    // Fields
     private int playerCount ;
     ArrayList<Player> players;
+
+    /**
+     * Constructor
+     * @param playerCount the number of players
+     */
     public GameInitiator(int playerCount ){
         this.playerCount = playerCount;
         players = new ArrayList<>();
     }
 
+    /**
+     * initiate players
+     * @return arraylist of players
+     */
     public ArrayList<Player> initiatePlayers(){
         createPlayers();
         shuffle();
         return players;
     }
 
+    /**
+     * create players
+     */
     private void createPlayers(){
         players.add(new GodFather());
         players.add(new DrLecter());
@@ -43,6 +58,10 @@ public class GameInitiator {
         }
 
     }
+
+    /**
+     * shuffle players
+     */
     private void shuffle(){
         Collections.shuffle(players);
     }

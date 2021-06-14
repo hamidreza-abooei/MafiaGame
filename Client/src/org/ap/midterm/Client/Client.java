@@ -1,4 +1,6 @@
-package org.ap.midterm.ui;
+package org.ap.midterm.Client;
+
+import org.ap.midterm.Chat.ChatClient;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -8,24 +10,49 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Scanner;
-
+/**
+ * @author Hamidreza Abooei
+ */
 public class Client {
-
+    private String rule;
+    /**
+     * constructor
+     */
     public Client(){
 
     }
 
+    /**
+     * start the client
+     * @param ipAddress ip address of server that is localhost in this program
+     * @param port port that server is running on it
+     */
     public void startClient(String ipAddress, int port){
         try (Socket socket = new Socket(ipAddress,port);
              DataInputStream in = new DataInputStream(socket.getInputStream());
              DataOutputStream out = new DataOutputStream(socket.getOutputStream())){
             Scanner scanner = new Scanner(System.in);
             System.out.println("Connected to server.");
+
             while (true){
                 String read = in.readUTF();
                 if (read.equalsIgnoreCase( "read")){
                     String entered = scanner.nextLine();
                     out.writeUTF(entered);
+                }else if (read.equalsIgnoreCase("startChat")){
+                    System.out.println("server should send my username");
+                    String username = in.readUTF();
+                    System.out.println("your username is: " + username );
+                    System.out.println("server should send me my port");
+                    String chatPort = in.readUTF();
+                    System.out.println("your rule is: " + chatPort);
+
+                    ChatClient chatClient = new ChatClient(ipAddress,Integer.parseInt(chatPort) , username , rule);
+                    Thread chatClientThread = new Thread(chatClient);
+                    chatClientThread.start();
+                }else if(read.equalsIgnoreCase("clientRule")){
+                    rule = in.readUTF();
+                    System.out.println("Your rule is :" + rule);
                 }else{
                     System.out.println(read);
                     if (read.equalsIgnoreCase("end")){
