@@ -94,7 +94,7 @@ public class GameState {
             if (players.get(i) instanceof Mafia){
                 if (players.get(i).isAlive()) {
                     mafiaUserNames.add(usernames.get(i));
-                    System.out.println("mafia username:" + usernames.get(i) + "rule is: " + players.get(i).toString());
+//                    System.out.println("mafia username:" + usernames.get(i) + "rule is: " + players.get(i).toString());
                 }
             }
         }

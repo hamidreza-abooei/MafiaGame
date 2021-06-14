@@ -11,33 +11,22 @@ import java.util.concurrent.RejectedExecutionException;
  * @author Hamidreza Abooei
  */
 public class ChatServer implements Runnable{
-//    private int port;
-//    private ArrayList<ClientHandler> clientHandlers;
+    // Fields
     private ArrayList<ChatClientHandler> chatClientHandlers;
     private int port;
     private boolean running;
     private boolean chatPrint;
-//    private int chatNumber;
-
 
     /**
      * constructor
      * @param port port of mafia chat
+     * @param chatPrint print player rule or not
      */
     public ChatServer(int port , boolean chatPrint){
         chatClientHandlers = new ArrayList<>();
         this.port = port;
         this.chatPrint = chatPrint;
     }
-
-//    /**
-//     * add a client to chat room
-//     * @param clientHandlers client
-//     */
-//    public void addClientHandlers(ArrayList<ClientHandler> clientHandlers){
-//        this.clientHandlers = clientHandlers;
-//        this.chatNumber = clientHandlers.size();
-//    }
 
     /**
      * start server
@@ -68,6 +57,7 @@ public class ChatServer implements Runnable{
 
     /**
      * broadcast message to other clients in the chat room
+     * @param message message to be broadcast
      */
     public void broadcast(String message){
         for (ChatClientHandler chatClient: chatClientHandlers){
@@ -75,20 +65,13 @@ public class ChatServer implements Runnable{
         }
     }
 
-//    private void createChatClientHandler(){
-//        for (ClientHandler clientHandler: clientHandlers) {
-//            chatClientHandlers.add(new ChatClientHandler(clientHandler.getConnection()));
-//        }
-//    }
 
     /**
      * close server
      */
     public void closeServer(){
-        System.out.println("end and close server");
         broadcast("stopChatClients");
         running = false;
-//        notifyAll();
     }
 
     /**

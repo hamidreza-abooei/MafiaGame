@@ -52,22 +52,14 @@ public class GameManager implements Runnable {
         ArrayList<Player> players = gameState.getPlayers();
         ArrayList<String> usernames = gameState.getUsernames();
         int counter = 0;
-//        for (int i = 0; i < clientHandlers.size(); i++) {
-            for(String username: usernames){
-                for(Map.Entry<String,ClientHandler> clientHandlerEntry: clientHandlers.entrySet()){
-                    if (clientHandlerEntry.getKey().equalsIgnoreCase(username)){
-                        clientHandlerEntry.getValue().startWriting("clientRule");
-                        clientHandlerEntry.getValue().startWriting(players.get(counter).toString());
-                    }
+        for(String username: usernames){
+            for(Map.Entry<String,ClientHandler> clientHandlerEntry: clientHandlers.entrySet()){
+                if (clientHandlerEntry.getKey().equalsIgnoreCase(username)){
+                    clientHandlerEntry.getValue().startWriting("clientRule");
+                    clientHandlerEntry.getValue().startWriting(players.get(counter).toString());
                 }
-                counter++;
             }
-//        }
-        {
-//            client.startWriting("clientRule");
-//            client.startWriting(players.get(counter).toString());
-//            System.out.println("Manager before loop: " + players.get(counter).toString());
-//            counter ++;
+            counter++;
         }
         gameLoop.start();
     }
@@ -95,23 +87,14 @@ public class GameManager implements Runnable {
      */
     public synchronized void startMafiaChatRoom() {
         ArrayList<ClientHandler> mafias = gameState.getMafiaClientHandler();
-//        mafiaChatServer.addClientHandlers(mafias);
-//        try {
             Thread mafiaChat = new Thread(mafiaChatServer);
             mafiaChat.start();
         for (ClientHandler mafia: mafias) {
-            System.out.println("mafia: " + mafia.getUsername() );
             mafia.startWriting("startChat");
             mafia.startWriting(mafia.getUsername());
-            System.out.println("mafiachat start: " + mafia.getUsername());
             mafia.startWriting(String.valueOf(mafiaChatServerPort));
-
         }
-//            Thread.sleep(60000);
-//            mafiaChatServer.closeServer();
-//        } catch (InterruptedException e) {
-//            System.err.println("Interrupted");
-//        }
+
 
     }
 
