@@ -6,6 +6,8 @@ import org.ap.midterm.ui.ClientHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author Hamidreza Abooei
  */
@@ -48,12 +50,24 @@ public class GameManager implements Runnable {
         gameState.addPlayers(gameInitiator.initiatePlayers());
         HashMap<String , ClientHandler> clientHandlers = gameState.getClientHandlerHashMap();
         ArrayList<Player> players = gameState.getPlayers();
+        ArrayList<String> usernames = gameState.getUsernames();
         int counter = 0;
-        for (ClientHandler client: clientHandlers.values()) {
-            client.startWriting("clientRule");
-            client.startWriting(players.get(counter).toString());
-            System.out.println("Manager before loop: " + players.get(counter).toString());
-            counter ++;
+//        for (int i = 0; i < clientHandlers.size(); i++) {
+            for(String username: usernames){
+                for(Map.Entry<String,ClientHandler> clientHandlerEntry: clientHandlers.entrySet()){
+                    if (clientHandlerEntry.getKey().equalsIgnoreCase(username)){
+                        clientHandlerEntry.getValue().startWriting("clientRule");
+                        clientHandlerEntry.getValue().startWriting(players.get(counter).toString());
+                    }
+                }
+                counter++;
+            }
+//        }
+        {
+//            client.startWriting("clientRule");
+//            client.startWriting(players.get(counter).toString());
+//            System.out.println("Manager before loop: " + players.get(counter).toString());
+//            counter ++;
         }
         gameLoop.start();
     }

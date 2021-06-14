@@ -7,13 +7,16 @@ import org.ap.midterm.ui.Chat.ChatServer;
  */
 public class Timer implements Runnable{
     private ChatServer server;
+    private int length;
 
     /**
      * constructor
      * @param server chat server
+     * @param length length second
      */
-    public Timer(ChatServer server){
+    public Timer(ChatServer server , int length){
         this.server = server;
+        this.length = length * 1000;
         System.out.println("timer added");
     }
 

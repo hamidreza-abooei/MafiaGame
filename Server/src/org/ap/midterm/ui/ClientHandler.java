@@ -89,7 +89,7 @@ public class ClientHandler implements Runnable{
         try {
             wait();
         } catch (InterruptedException e) {
-            System.out.println("message didn't sent");
+            System.out.println("message didn't sent, interrupted");
         }
     }
 

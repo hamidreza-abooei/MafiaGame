@@ -43,7 +43,7 @@ public class ChatServer implements Runnable{
      * start server
      */
     private synchronized void startChat(){
-        Timer timer = new Timer(this);
+        Timer timer = new Timer(this , 60);
         Thread timerThread = new Thread(timer);
         timerThread.start();
         try (ServerSocket chatServerSocket = new ServerSocket(port)) {

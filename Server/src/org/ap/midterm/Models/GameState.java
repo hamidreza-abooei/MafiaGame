@@ -25,7 +25,7 @@ public class GameState {
      * add all player
      * @param players add players from GameInitiator
      */
-    public void addPlayers(ArrayList<Player> players){
+    public synchronized void addPlayers(ArrayList<Player> players){
         this.players = players;
     }
 
@@ -34,7 +34,7 @@ public class GameState {
      * @param username username of client
      * @param clientHandler client handler to keep
      */
-    private void addUser(String username, ClientHandler clientHandler){
+    private synchronized void addUser(String username, ClientHandler clientHandler){
         usernames.add(username);
         clientHandlerHashMap.put(username,clientHandler);
     }
@@ -45,7 +45,7 @@ public class GameState {
      * @param clientHandler client handler
      * @return is it registered or not
      */
-    public boolean checkUsername(String username,ClientHandler clientHandler){
+    public synchronized boolean checkUsername(String username,ClientHandler clientHandler){
         for (String anyUsername: clientHandlerHashMap.keySet()) {
             if(anyUsername.equalsIgnoreCase(username)){
                 return false;
@@ -67,7 +67,7 @@ public class GameState {
      *
      * @return get all player
      */
-    public ArrayList<Player> getPlayers() {
+    public synchronized ArrayList<Player> getPlayers() {
         return players;
     }
 
@@ -105,7 +105,10 @@ public class GameState {
      * get Username and client handler Map
      * @return Hash map of username and ClientHandler
      */
-    public HashMap<String, ClientHandler> getClientHandlerHashMap() {
+    public synchronized HashMap<String, ClientHandler> getClientHandlerHashMap() {
         return clientHandlerHashMap;
+    }
+    public ArrayList<String> getUsernames(){
+        return usernames;
     }
 }

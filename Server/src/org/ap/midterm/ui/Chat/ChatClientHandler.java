@@ -31,7 +31,7 @@ public class ChatClientHandler implements Runnable{
      * run this thread
      */
     @Override
-    public void run() {
+    public synchronized void run() {
         try (InputStream in = connection.getInputStream();
              OutputStream out = connection.getOutputStream()){
 
