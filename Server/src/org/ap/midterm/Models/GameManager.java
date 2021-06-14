@@ -20,6 +20,7 @@ public class GameManager implements Runnable {
     private int playerCount;
     private int chatServerPort;
     private int mafiaChatServerPort;
+    private GameRules gameRules;
     /**
      * Constructor and initiator
      * @param playerCount the number of players
@@ -32,6 +33,7 @@ public class GameManager implements Runnable {
         mafiaChatServerPort = 8654;
         chatServer = new ChatServer(chatServerPort , false);
         mafiaChatServer = new ChatServer(mafiaChatServerPort , true);
+        gameRules = new GameRules(gameState);
     }
 
     /**
@@ -98,6 +100,12 @@ public class GameManager implements Runnable {
 
     }
 
+    /**
+     * apply changes and Game Rules
+     */
+    public void applyChanges(){
+        gameRules.applyGameRules();
+    }
 
 
     /**

@@ -12,6 +12,7 @@ public class GameState {
     private ArrayList<Player> players;
     private ArrayList<String> usernames;
     private HashMap<String , ClientHandler> clientHandlerHashMap;
+    private GameMode gameMode;
 
     /**
      * Constructor
@@ -110,5 +111,21 @@ public class GameState {
     }
     public ArrayList<String> getUsernames(){
         return usernames;
+    }
+
+    /**
+     * get gameMode
+     * @return game mode
+     */
+    public GameMode getGameMode() {
+        return gameMode;
+    }
+
+    /**
+     * set game mode
+     * @param gameMode game mode to set
+     */
+    public void setGameMode(GameMode gameMode) {
+        this.gameMode = gameMode;
     }
 }

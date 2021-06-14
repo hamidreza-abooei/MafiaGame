@@ -34,6 +34,7 @@ public class GameLoop {
      */
     private void firstNight(){
         gameManager.startMafiaChatRoom();
+
     }
 
     /**
@@ -61,7 +62,7 @@ public class GameLoop {
      * apply changes after election and night
      */
     public void applyChanges(){
-
+        gameManager.applyChanges();
     }
 
 
