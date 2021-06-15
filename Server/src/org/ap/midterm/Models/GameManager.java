@@ -31,8 +31,8 @@ public class GameManager implements Runnable {
         this.playerCount = playerCount;
         chatServerPort = 2585;
         mafiaChatServerPort = 8654;
-        chatServer = new ChatServer(chatServerPort , false , this);
-        mafiaChatServer = new ChatServer(mafiaChatServerPort , true , this);
+        chatServer = new ChatServer(chatServerPort , false , this , 60);
+        mafiaChatServer = new ChatServer(mafiaChatServerPort , true , this,30);
         gameRules = new GameRules(gameState , this);
     }
 
@@ -107,12 +107,27 @@ public class GameManager implements Runnable {
     }
 
     /**
+     * start Public chat room
+     */
+    public synchronized void startPublicChatRoom() {
+        ArrayList<ClientHandler> players = gameState.getAllClientHandlers();
+        Thread publicChat = new Thread(chatServer);
+        publicChat.start();
+        for (ClientHandler player: players) {
+            player.startWriting("startChat");
+            player.startWriting(player.getUsername());
+            player.startWriting(String.valueOf(chatServerPort));
+        }
+    }
+
+    /**
      * mafia broadcast
      * @param message
      */
     public synchronized void mafiaBroadcastMessage(String message){
         ArrayList<ClientHandler> mafias = gameState.getMafiaClientHandler();
         for (ClientHandler mafia: mafias) {
+//            System.out.println("GameManager: mafia broadcast message" + mafia.toString() + message);
             mafia.startWriting(message);
         }
     }
@@ -164,7 +179,24 @@ public class GameManager implements Runnable {
         return gameState.getAliveCitizens();
     }
 
+    /**
+     *
+     * @param usernameToSend
+     * @param messageToSend
+     */
     public void sendMessageToClientHandler(String usernameToSend , String messageToSend){
-
+        gameState.getClientHandler(usernameToSend).startWriting(messageToSend);
     }
+
+    /**
+     * send rules to mafias in order to introduction
+     */
+    public void mafiaIntroduction (){
+        ArrayList<String> userNames = gameState.getMafiaUserNames();
+        for(String username: userNames){
+            mafiaBroadcastMessage(username + " is: " + gameState.getUsernameRule(username));
+        }
+    }
+
+
 }

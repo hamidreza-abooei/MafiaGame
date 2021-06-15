@@ -39,7 +39,7 @@ public class Client {
 //                if (read.equalsIgnoreCase("readPlusUsername"))
 //
                 if (read.equalsIgnoreCase( "read")){
-//                    System.out.println("Waiting for enter");
+                    System.out.println("Waiting for enter");
                     String entered = scanner.nextLine();
 //                    System.out.println("Entered message" + entered);
                     out.writeUTF(entered);

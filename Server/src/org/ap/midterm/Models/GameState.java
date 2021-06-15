@@ -104,11 +104,21 @@ public class GameState {
             if (players.get(i) instanceof Mafia){
                 if (players.get(i).isAlive()) {
                     mafiaUserNames.add(usernames.get(i));
-//                    System.out.println("mafia username:" + usernames.get(i) + "rule is: " + players.get(i).toString());
                 }
             }
         }
         return mafiaUserNames;
+    }
+
+
+    public synchronized String getUsernameRule(String usernameToGetRule){
+        int counter = 0;
+        for(String username:usernames){
+            if (username.equalsIgnoreCase(usernameToGetRule))
+                break;
+            counter++;
+        }
+        return players.get(counter).toString();
     }
 
     /**
@@ -140,8 +150,11 @@ public class GameState {
 
     public ArrayList<ClientHandler> getAllClientHandlers(){
         ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
+        int counter = 0;
         for (String username : usernames) {
-            clientHandlers.add(clientHandlerHashMap.get(username));
+            if (players.get(counter).isAlive())
+                clientHandlers.add(clientHandlerHashMap.get(username));
+            counter++;
         }
         return clientHandlers;
     }

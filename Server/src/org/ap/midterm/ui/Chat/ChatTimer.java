@@ -27,7 +27,7 @@ public class ChatTimer implements Runnable{
     public void run() {
         try {
 //            System.out.println("timer initiated");
-            Thread.sleep(10000);
+            Thread.sleep(length);
             System.out.println("Chat timer ended");
             server.closeServer();
         } catch (InterruptedException e) {

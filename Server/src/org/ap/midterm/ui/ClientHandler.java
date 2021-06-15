@@ -86,12 +86,15 @@ public class ClientHandler implements Runnable{
      */
     public synchronized void startWriting(String message){
         this.message.add(message);
+//        System.out.println("in clientHandler message send " + message);
         notify();
-        try {
-            wait();
-        } catch (InterruptedException e) {
-            System.out.println("message didn't sent, interrupted");
-        }
+//        System.out.println("notified");
+//        try {
+//            wait(10);
+//        } catch (InterruptedException e) {
+//            System.out.println("message didn't sent, interrupted");
+//        }
+//        System.out.println("end of client Handler");
     }
 
     /**
@@ -100,8 +103,9 @@ public class ClientHandler implements Runnable{
      */
     private synchronized String writeToClient(){
         try {
-            notify();
-            wait();
+//            notify();
+            if (message.size()<1)
+                wait();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -116,8 +120,8 @@ public class ClientHandler implements Runnable{
      */
     public void readFromClient(String string){
         gameManager.readFromClient(username , string);
-        startWriting("Arrived Message is: " + string);
-//        System.out.println("this used");
+        startWriting("Arrived Answer is: " + string);
+//        System.out.println("message sent");
     }
 
     /**

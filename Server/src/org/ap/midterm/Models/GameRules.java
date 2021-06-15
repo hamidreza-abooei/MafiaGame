@@ -44,7 +44,7 @@ public class GameRules {
                         }
                     }
                     if(kill){
-                        gameManager.sendMessageToKiller(sendUsername + " opinion is to kill" + message);
+                        gameManager.sendMessageToKiller(sendUsername + " opinion is to kill " + message);
                     }
                 }
             }catch (NumberFormatException e){
@@ -56,6 +56,7 @@ public class GameRules {
         if (addOrNot) {
             eventSenders.add(sendUsername);
             events.add(message);
+//            System.out.println("event Added user:" + sendUsername + " event " + message );
         }
     }
 }
