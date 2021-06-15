@@ -265,4 +265,15 @@ public class GameManager implements Runnable {
         doctorLecterClientHandler.startWriting("read");
     }
 
+    /**
+     * mafia kill
+     */
+    public void mafiaKill(){
+        mafiaBroadcastMessage("Select User to kill.");
+        ArrayList<String> usernames = getAliveCitizens();
+        for (int i = 0; i < usernames.size(); i++) {
+            mafiaBroadcastMessage(i + "- " + usernames.get(i));
+        }
+        mafiaBroadcastMessage("read");
+    }
 }

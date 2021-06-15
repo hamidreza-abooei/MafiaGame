@@ -27,7 +27,7 @@ public class GameLoop {
         while(true){
             day();
             applyChanges();
-            night();
+            night(true);
             applyChanges();
         }
     }
@@ -36,31 +36,7 @@ public class GameLoop {
      * things that should be done in the first night
      */
     private synchronized void firstNight(){
-        try {
-            gameManager.setGameMode(GameMode.NIGHT);
-            gameManager.mafiaIntroduction();
-            gameManager.DetectiveInquiry();
-            gameManager.DoctorSave();
-            gameManager.DoctorLecterSave();
-//            gameManager.startMafiaChatRoom();
-//            wait();
-
-            gameManager.mafiaBroadcastMessage("Select User to kill.");
-            ArrayList<String> usernames = gameManager.getAliveCitizens();
-            for (int i = 0; i < usernames.size(); i++) {
-                gameManager.mafiaBroadcastMessage(i + "- " + usernames.get(i));
-            }
-//            System.out.println("send read");
-            gameManager.mafiaBroadcastMessage("read");
-//            System.out.println("read sent");
-//            startTimer(60);
-//            System.out.println("timer started 60 seconds");
-            wait();
-        } catch (InterruptedException e) {
-            System.out.println("interrupted");
-        }
-
-
+        night(false);
     }
 
     /**
@@ -87,8 +63,26 @@ public class GameLoop {
     /**
      * things that is been done in the night
      */
-    private void night(){
+    private void night(boolean mafiaChat){
+        try {
+            gameManager.setGameMode(GameMode.NIGHT);
+            gameManager.mafiaIntroduction();
+            gameManager.DetectiveInquiry();
+            gameManager.DoctorSave();
+            if(mafiaChat) {
+                gameManager.startMafiaChatRoom();
+                wait();
+            }
+            gameManager.mafiaKill();
+//            System.out.println("read sent");
+//            startTimer(60);
+//            System.out.println("timer started 60 seconds");
+            gameManager.DoctorLecterSave();
+            wait();
 
+        } catch (InterruptedException e) {
+            System.out.println("interrupted");
+        }
     }
 
     /**
