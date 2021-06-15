@@ -240,6 +240,21 @@ public class GameManager implements Runnable {
     }
 
     /**
+     * return result of inquiry to Detective
+     * @param isMafia result from GameRule
+     */
+    public void DetectiveInquiryResult(boolean isMafia){
+        String message;
+        if(isMafia){
+            message = "Player is Mafia.";
+        }else{
+            message = "Player is NOT Mafia.";
+        }
+        gameState.getClientHandlerOfPlayer("Detective").startWriting(message);
+
+    }
+
+    /**
      * Doctor can save
      */
     public void DoctorSave(){

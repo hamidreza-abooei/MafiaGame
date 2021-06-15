@@ -58,7 +58,7 @@ public class GameRules {
         String DrlecterHealer = "";
         int counter = 0;
         for(String eventSender:eventSenders){
-            // kill Citizen
+            // kill Citizen by mafia
             if (eventSender.equalsIgnoreCase(gameState.getKillerUsername())){
                 mafiaKillPlayer = events.get(counter);
             }else if(gameState.getUsernameRule(eventSender).equalsIgnoreCase("DrLecter")){
@@ -77,6 +77,18 @@ public class GameRules {
                     hunterKill = "Hunter";
                 }
             }
+
+            // detective
+            if (gameState.getUsernameRule(eventSender).equalsIgnoreCase("Detective")){
+                if (gameState.getUsernameRule(events.get(counter)).equalsIgnoreCase("Mafia") ||
+                        gameState.getUsernameRule(events.get(counter)).equalsIgnoreCase("DrLecter")){
+                    gameManager.DetectiveInquiryResult(true);
+                }else{
+                    gameManager.DetectiveInquiryResult(false);
+                }
+            }
+
+            
 
 
             counter++;
