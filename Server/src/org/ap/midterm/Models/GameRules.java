@@ -12,6 +12,12 @@ public class GameRules {
     GameManager gameManager;
     ArrayList<String> eventSenders;
     ArrayList<String> events;
+
+    /**
+     * constructor
+     * @param gameState game state
+     * @param gameManager game manager
+     */
     public GameRules(GameState gameState , GameManager gameManager){
         this.gameState = gameState;
         this.gameManager = gameManager;
@@ -120,6 +126,55 @@ public class GameRules {
      * apply changes in day
      */
     private void electionApply(){
+        int counter = 0;
+        boolean veto = false;
+        boolean president = false; // this is for vote and veto
+        ArrayList<String> usernames = new ArrayList<>();
+        ArrayList<Integer> votes = new ArrayList<>();
+
+        for (String eventSender : eventSenders){
+            if (gameState.getUsernameRule(eventSender).equalsIgnoreCase("President")){
+                if (!president){
+                    president = true;
+                }else{
+                    if (!events.get(counter).equalsIgnoreCase("-1")){
+                        veto = true;
+                    }
+                }
+            }else {
+                String voted = events.get(counter);
+                int voteCounter = 0;
+                boolean usernameExist = false;
+                for (String username : usernames){
+                    if (voted.equalsIgnoreCase(username)){
+                        votes.set(voteCounter,votes.get(voteCounter)+1);
+                        usernameExist = true;
+                    }
+                    voteCounter++;
+                }
+                if (!usernameExist){
+                    usernames.add(voted);
+                    votes.add(1);
+                }
+            }
+            counter++;
+        }
+
+        counter = 0;
+        int maxVote = 0;
+        int number = -1;
+        for (Integer vote : votes){
+            if(vote>maxVote){
+                maxVote = vote;
+                number = counter;
+            }
+            counter++;
+        }
+        if (!veto){
+            if(maxVote>1){
+                gameState.killPlayer(usernames.get(number));
+            }
+        }
 
     }
 

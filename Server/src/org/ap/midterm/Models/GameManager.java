@@ -222,7 +222,7 @@ public class GameManager implements Runnable {
      */
     public void veto(){
         ClientHandler presidentClientHandler = gameState.getClientHandler("President");
-        presidentClientHandler.startWriting("Do you want to veto this vote?");
+        presidentClientHandler.startWriting("Do you want to veto this vote? press '-1' for reject");
         presidentClientHandler.startWriting("read");
     }
 
