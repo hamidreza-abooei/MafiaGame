@@ -53,25 +53,44 @@ public class GameRules {
      */
     private void nightApply(){
         String mafiaKillPlayer = "";
+        String DoctorHealer = "";
+        String hunterKill = "";
+        String DrlecterHealer = "";
         int counter = 0;
         for(String eventSender:eventSenders){
             // kill Citizen
-            if (gameState.getUsernameRule(eventSender).equalsIgnoreCase("Mafia") ||
-                    gameState.getUsernameRule(eventSender).equalsIgnoreCase("GodFather") ||
-                    gameState.getUsernameRule(eventSender).equalsIgnoreCase("DrLecter")){
+            if (eventSender.equalsIgnoreCase(gameState.getKillerUsername())){
                 mafiaKillPlayer = events.get(counter);
-            }else if (gameState.getUsernameRule(eventSender).equalsIgnoreCase("Doctor")){
-                if(mafiaKillPlayer.equalsIgnoreCase(events.get(counter))){
-                    mafiaKillPlayer = "";
-                }
-            }
-            if (mafiaKillPlayer.length()>0){
-                gameState.killPlayer(mafiaKillPlayer);
+            }else if(gameState.getUsernameRule(eventSender).equalsIgnoreCase("DrLecter")){
+                DrlecterHealer = events.get(counter);
             }
 
+            if (gameState.getUsernameRule(eventSender).equalsIgnoreCase("Doctor")){
+                DoctorHealer = events.get(counter);
+            }
             // kill by Hunter
-//            if ()
+            if (gameState.getUsernameRule(eventSender).equalsIgnoreCase("hunter")){
+                if (gameState.getPlayer(events.get(counter)) instanceof Mafia){
+                    hunterKill = events.get(counter);
+                }else{
+                    //Suicide
+                    hunterKill = "Hunter";
+                }
+            }
+
+
             counter++;
+        }
+
+        if (mafiaKillPlayer.length()>0){
+            if (!mafiaKillPlayer.equalsIgnoreCase(DoctorHealer)) {
+                gameState.killPlayer(mafiaKillPlayer);
+            }
+        }
+        if (hunterKill.length()>0){
+            if(!hunterKill.equalsIgnoreCase(DrlecterHealer)) {
+                gameState.killPlayer(hunterKill);
+            }
         }
     }
 
@@ -89,22 +108,24 @@ public class GameRules {
      */
     public void addEvent(String sendUsername , String message){
         boolean addOrNot = true;
-        int usernameID = -1;
+        int usernameID = -2;
         if (gameState.getGameMode() == GameMode.NIGHT){
             usernameID = toInteger(sendUsername , message);
-            ArrayList<String> choices = gameManager.getAliveCitizens();
-            message = choices.get(usernameID);
-            if (!sendUsername.equalsIgnoreCase(gameState.getKillerUsername())) {
-                // this part is for Dr.Lecter that can do two things in one night
-                boolean kill = true; // between kill and save
-                for(String eventSender:eventSenders){
-                    if (eventSender.equalsIgnoreCase(sendUsername)){
-                        kill = false;
+            if (usernameID != -1) {
+                ArrayList<String> choices = gameManager.getAliveCitizens();
+                message = choices.get(usernameID);
+                if (!sendUsername.equalsIgnoreCase(gameState.getKillerUsername())) {
+                    // this part is for Dr.Lecter that can do two things in one night
+                    boolean kill = true; // between kill and save
+                    for (String eventSender : eventSenders) {
+                        if (eventSender.equalsIgnoreCase(sendUsername)) {
+                            kill = false;
+                        }
                     }
-                }
-                if(kill){
-                    gameManager.sendMessageToKiller(sendUsername + " opinion is to kill " + message);
-                    addOrNot= false;
+                    if (kill) {
+                        gameManager.sendMessageToKiller(sendUsername + " opinion is to kill " + message);
+                        addOrNot = false;
+                    }
                 }
             }
         }
@@ -115,7 +136,7 @@ public class GameRules {
             message = choices.get(usernameID);
         }
 
-        if (usernameID != -1 && addOrNot) {
+        if (usernameID != -2 && addOrNot) {
             eventSenders.add(sendUsername);
             events.add(message);
 //            System.out.println("event Added user:" + sendUsername + " event " + message );
