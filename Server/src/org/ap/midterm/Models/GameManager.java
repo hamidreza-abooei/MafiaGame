@@ -221,6 +221,9 @@ public class GameManager implements Runnable {
         presidentClientHandler.startWriting("read");
     }
 
+    /**
+     * Detective can Inquiry Mafia
+     */
     public void DetectiveInquiry(){
         ClientHandler detectiveClientHandler = gameState.getClientHandlerOfPlayer("Detective");
         ArrayList<String> usernames = gameState.getAliveUsernames();
@@ -231,4 +234,20 @@ public class GameManager implements Runnable {
         }
         detectiveClientHandler.startWriting("read");
     }
+
+    /**
+     * Doctor can save
+     */
+    public void DoctorSave(){
+        ClientHandler doctorClientHandler = gameState.getClientHandlerOfPlayer("Doctor");
+        ArrayList<String> usernames = gameState.getAliveUsernames();
+        int counter = 0;
+        for(String username:usernames) {
+            doctorClientHandler.startWriting(counter + "- " + username);
+            counter++;
+        }
+        doctorClientHandler.startWriting("Warning: you can only save your self once");
+        doctorClientHandler.startWriting("read");
+    }
+
 }

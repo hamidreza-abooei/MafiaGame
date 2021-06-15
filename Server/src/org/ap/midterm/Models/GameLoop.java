@@ -40,6 +40,7 @@ public class GameLoop {
             gameManager.setGameMode(GameMode.NIGHT);
             gameManager.mafiaIntroduction();
             gameManager.DetectiveInquiry();
+            gameManager.DoctorSave();
 //            gameManager.startMafiaChatRoom();
 //            wait();
 
