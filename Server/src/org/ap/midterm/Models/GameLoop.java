@@ -42,9 +42,11 @@ public class GameLoop {
      */
     private void day(){
         try {
+            gameManager.setGameMode(GameMode.DAY);
             gameManager.startPublicChatRoom();
 //            startTimer();
             wait();
+            gameManager.setGameMode(GameMode.ELECTION);
             gameManager.vote();
             startTimer(30);
             wait();

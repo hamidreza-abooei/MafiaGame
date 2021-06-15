@@ -19,20 +19,19 @@ public class GameRules {
         this.eventSenders = new ArrayList<>();
     }
 
+
     /**
      * apply game rules
      */
     public void applyGameRules(){
         // after night
         if (gameState.getGameMode()==GameMode.NIGHT){
-
+            nightApply();
         }
-//        if (gameState.getGameMode()==GameMode.DAY){
-//
-//        }
+
         // after election
         if (gameState.getGameMode()==GameMode.ELECTION){
-
+            electionApply();
         }
 
 
@@ -44,6 +43,43 @@ public class GameRules {
                 ((Mafia)gameState.getPlayer("Mafia")).setKiller();
             }
         }
+        // clear events after apply it
+        events.clear();
+        eventSenders.clear();
+    }
+
+    /**
+     * apply changes in night
+     */
+    private void nightApply(){
+        String mafiaKillPlayer = "";
+        int counter = 0;
+        for(String eventSender:eventSenders){
+            // kill Citizen
+            if (gameState.getUsernameRule(eventSender).equalsIgnoreCase("Mafia") ||
+                    gameState.getUsernameRule(eventSender).equalsIgnoreCase("GodFather") ||
+                    gameState.getUsernameRule(eventSender).equalsIgnoreCase("DrLecter")){
+                mafiaKillPlayer = events.get(counter);
+            }else if (gameState.getUsernameRule(eventSender).equalsIgnoreCase("Doctor")){
+                if(mafiaKillPlayer.equalsIgnoreCase(events.get(counter))){
+                    mafiaKillPlayer = "";
+                }
+            }
+            if (mafiaKillPlayer.length()>0){
+                gameState.killPlayer(mafiaKillPlayer);
+            }
+
+            // kill by Hunter
+//            if ()
+            counter++;
+        }
+    }
+
+    /**
+     * apply changes in day
+     */
+    private void electionApply(){
+
     }
 
     /**
@@ -68,6 +104,7 @@ public class GameRules {
                 }
                 if(kill){
                     gameManager.sendMessageToKiller(sendUsername + " opinion is to kill " + message);
+                    addOrNot= false;
                 }
             }
         }
@@ -78,7 +115,7 @@ public class GameRules {
             message = choices.get(usernameID);
         }
 
-        if (usernameID != -1) {
+        if (usernameID != -1 && addOrNot) {
             eventSenders.add(sendUsername);
             events.add(message);
 //            System.out.println("event Added user:" + sendUsername + " event " + message );
