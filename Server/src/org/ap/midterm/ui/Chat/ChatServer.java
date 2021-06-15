@@ -20,6 +20,7 @@ public class ChatServer implements Runnable{
     private boolean chatPrint;
     private GameManager gameManager;
     private int timerLength;
+    private String silenceUsername;
 
     /**
      * constructor
@@ -73,6 +74,16 @@ public class ChatServer implements Runnable{
         }
     }
 
+    /**
+     * check silence
+     * @param username username red
+     * @param clientHandler client handler of that client
+     */
+    public synchronized void checkSilence( String username, ChatClientHandler clientHandler){
+        if(username.equalsIgnoreCase(silenceUsername)){
+            clientHandler.setSilence();
+        }
+    }
 
     /**
      * close server
@@ -84,6 +95,13 @@ public class ChatServer implements Runnable{
         gameManager.resumeGameLoop();
     }
 
+    /**
+     * set silence username
+     * @param silenceUsername username to silence
+     */
+    public void setSilenceUsername(String silenceUsername){
+        this.silenceUsername = silenceUsername;
+    }
     /**
      * run this thread
      */

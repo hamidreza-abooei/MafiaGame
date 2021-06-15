@@ -4,8 +4,9 @@ package org.ap.midterm.Models;
  * @author Hamidreza Abooei
  */
 public class GameLoop {
-    GameManager gameManager;
-    LoopTimer loopTimer;
+    private GameManager gameManager;
+    private LoopTimer loopTimer;
+    private String silenceUsername;
 //    GameState gameState;
 
     /**
@@ -14,6 +15,7 @@ public class GameLoop {
      */
     public GameLoop(GameManager gameManager){
         this.gameManager = gameManager;
+        this.silenceUsername = null;
 
     }
 
@@ -43,7 +45,8 @@ public class GameLoop {
     private void day(){
         try {
             gameManager.setGameMode(GameMode.DAY);
-            gameManager.startPublicChatRoom();
+            gameManager.startPublicChatRoom(silenceUsername);
+            silenceUsername = null;
 //            startTimer();
             wait();
             gameManager.setGameMode(GameMode.ELECTION);
@@ -109,6 +112,14 @@ public class GameLoop {
      */
     public synchronized void resume(){
         notify();
+    }
+
+    /**
+     * set silence username
+     * @param silenceUsername username to be silent
+     */
+    public void setSilenceUsername(String silenceUsername){
+        this.silenceUsername = silenceUsername;
     }
 
 

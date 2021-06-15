@@ -32,8 +32,8 @@ public class GameManager implements Runnable {
         this.playerCount = playerCount;
         chatServerPort = 2585;
         mafiaChatServerPort = 8654;
-        chatServer = new ChatServer(chatServerPort , false , this , 60);
-        mafiaChatServer = new ChatServer(mafiaChatServerPort , true , this,30);
+        chatServer = new ChatServer(chatServerPort , false , this , 60 );
+        mafiaChatServer = new ChatServer(mafiaChatServerPort , true , this,30 );
         gameRules = new GameRules(gameState , this);
     }
 
@@ -110,7 +110,8 @@ public class GameManager implements Runnable {
     /**
      * start Public chat room
      */
-    public synchronized void startPublicChatRoom() {
+    public synchronized void startPublicChatRoom(String silenceUsername) {
+        chatServer.setSilenceUsername(silenceUsername);
         ArrayList<ClientHandler> players = gameState.getAllClientHandlers();
         Thread publicChat = new Thread(chatServer);
         publicChat.start();
@@ -353,6 +354,14 @@ public class GameManager implements Runnable {
      */
     public void dieHardInquiryResult(String rule){
         gameState.getClientHandlerOfPlayer("DieHard").startWriting("Player tha you had inquired was:" + rule);
+    }
+
+    /**
+     * username to be silent
+     * @param username to be silent next rond
+     */
+    public void silenceUsername(String username){
+        gameLoop.setSilenceUsername(username);
     }
 
 }

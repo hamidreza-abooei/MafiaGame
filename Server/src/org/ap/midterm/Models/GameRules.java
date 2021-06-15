@@ -90,13 +90,19 @@ public class GameRules {
 
             // die hard inquiry
             if(gameState.getUsernameRule(eventSender).equalsIgnoreCase("DieHard")){
-                gameState.getUsernameRule(events.get(counter));
+                gameManager.dieHardInquiryResult(gameState.getUsernameRule(events.get(counter)));
+            }
+
+            // Psychologist silence rule
+            if (gameState.getUsernameRule(eventSender).equalsIgnoreCase("Psychologist")){
+                gameManager.silenceUsername(events.get(counter));
             }
 
 
             counter++;
         }
 
+        // apply kills
         if (mafiaKillPlayer.length()>0){
             if (!mafiaKillPlayer.equalsIgnoreCase(DoctorHealer)) {
                 gameState.killPlayer(mafiaKillPlayer);
@@ -107,6 +113,7 @@ public class GameRules {
                 gameState.killPlayer(hunterKill);
             }
         }
+        checkEndOfGame();
     }
 
     /**
@@ -158,6 +165,29 @@ public class GameRules {
         }
     }
 
+    /**
+     * check game over
+     * @return game over or not
+     */
+    private void checkEndOfGame(){
+        int numberOfAliveCitizens = gameState.getAliveCitizens().size();
+        int numberOfAliveMafias = gameState.getMafiaUserNames().size();
+        if (numberOfAliveMafias == 0){
+            winner("Citizens");
+        }
+        if (numberOfAliveMafias >= numberOfAliveCitizens ){
+            winner("Mafias");
+        }
+    }
+
+    /**
+     * broadcast winner and GameOVER
+     * @param winner winner of the game
+     */
+    private void winner(String winner){
+        gameManager.broadcastMessage("Winner is: " + winner);
+        //end of game
+    }
 
     /**
      * to handle exception

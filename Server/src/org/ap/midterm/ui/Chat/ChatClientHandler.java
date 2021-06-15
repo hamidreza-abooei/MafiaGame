@@ -13,6 +13,8 @@ public class ChatClientHandler implements Runnable{
     private String username;
     private String rule;
     private boolean rulePrint;
+    private boolean silence;
+
 
     /**
      * constructor
@@ -22,6 +24,8 @@ public class ChatClientHandler implements Runnable{
         this.connection = connection;
         this.server = server;
         this.rulePrint = rulePrint;
+        this.silence = false;
+
     }
 
 
@@ -56,6 +60,7 @@ public class ChatClientHandler implements Runnable{
                 }
                 rule += (char) readChar;
             }
+            server.checkSilence(username ,this);
             //send welcoming message
             String welcomeMessage = "Chat has been started " + username + " your rule is: " + rule;
             writer.println(welcomeMessage);
@@ -69,7 +74,8 @@ public class ChatClientHandler implements Runnable{
                     if (rulePrint)
                         server.broadcast("[" + username + ":" + rule + "]: " + readString);
                     else
-                        server.broadcast("[" + username + "]: " + readString);
+                        if (!silence)
+                            server.broadcast("[" + username + "]: " + readString);
 
                     readString = "";
                 }else {
@@ -82,12 +88,21 @@ public class ChatClientHandler implements Runnable{
         }
     }
 
+
+
     /**
      * send massage to client
      * @param message to send
      */
     public void sendMessage(String message){
         writer.println(message);
+    }
+
+    /**
+     * set this client silence
+     */
+    public void setSilence(){
+        this.silence = true;
     }
 
 }
