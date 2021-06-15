@@ -1,5 +1,6 @@
 package org.ap.midterm.Models;
 
+import org.ap.midterm.Models.Citizen.DieHard;
 import org.ap.midterm.Models.Mafia.Mafia;
 import org.ap.midterm.dependencies.GameInitiator;
 import org.ap.midterm.ui.Chat.ChatServer;
@@ -280,5 +281,54 @@ public class GameManager implements Runnable {
             mafiaBroadcastMessage(i + "- " + usernames.get(i));
         }
         mafiaBroadcastMessage("read");
+    }
+
+    /**
+     * hunter shooting
+     */
+    public void hunterShoot(){
+        ClientHandler hunterClientHandler = gameState.getClientHandlerOfPlayer("Hunter");
+        ArrayList<String> mafiaUsernames = gameState.getAliveUsernames();
+        int counter = 0;
+        hunterClientHandler.startWriting("Select one of the bellow usernames to Shoot:");
+        for (String mafiaUsername: mafiaUsernames){
+            hunterClientHandler.startWriting(counter + "- " + mafiaUsername);
+            counter++;
+        }
+        hunterClientHandler.startWriting("Warning: if you shoot Citizens, you will die.");
+        hunterClientHandler.startWriting("if you dont want to kill, press -1");
+        hunterClientHandler.startWriting("read");
+    }
+
+    /**
+     * psychologist Silence Act
+     */
+    public void psychologistSilenceAct(){
+        ClientHandler hunterClientHandler = gameState.getClientHandlerOfPlayer("Psychologist");
+        ArrayList<String> usernames = gameState.getAliveUsernames();
+        int counter = 0;
+        hunterClientHandler.startWriting("Select one of the bellow usernames to Silence next Day:");
+        for (String mafiaUsername: usernames){
+            hunterClientHandler.startWriting(counter + "- " + mafiaUsername);
+            counter++;
+        }
+        hunterClientHandler.startWriting("read");
+    }
+
+    /**
+     * die hard act
+     */
+    public void dieHardAct(){
+        if (((DieHard)gameState.getPlayer("DieHard")).isInquiryAble()) {
+            ClientHandler dieHardClientHandler = gameState.getClientHandlerOfPlayer("DieHard");
+            ArrayList<String> deadUsernames = gameState.getDeadUsernames();
+            int counter = 0;
+            dieHardClientHandler.startWriting("Select one of the bellow usernames to inquiry or press -1:");
+            for (String mafiaUsername : deadUsernames) {
+                dieHardClientHandler.startWriting(counter + "- " + mafiaUsername);
+                counter++;
+            }
+            dieHardClientHandler.startWriting("read");
+        }
     }
 }

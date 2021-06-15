@@ -252,6 +252,21 @@ public class GameState {
     }
 
     /**
+     *
+     * @return dead usernames
+     */
+    public ArrayList<String> getDeadUsernames(){
+        int counter = 0;
+        ArrayList<String> deads = new ArrayList<>();
+        for(String username:usernames){
+            if (!players.get(counter).isAlive())
+                deads.add(username);
+            counter++;
+        }
+        return deads;
+    }
+
+    /**
      * get Client Handler Of Player
      * @param playerName player name
      * @return client handler of that player name

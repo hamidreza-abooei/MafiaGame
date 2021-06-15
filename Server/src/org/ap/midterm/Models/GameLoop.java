@@ -69,7 +69,10 @@ public class GameLoop {
             gameManager.mafiaIntroduction();
             gameManager.DetectiveInquiry();
             gameManager.DoctorSave();
+            gameManager.hunterShoot();
+            gameManager.psychologistSilenceAct();
             if(mafiaChat) {
+                gameManager.dieHardAct();
                 gameManager.startMafiaChatRoom();
                 wait();
             }
