@@ -1,9 +1,17 @@
 package org.ap.midterm.Models;
 
+import java.util.ArrayList;
+
 public class GameRules {
     GameState gameState;
-    public GameRules(GameState gameState){
+    GameManager gameManager;
+    ArrayList<String> eventSenders;
+    ArrayList<String> events;
+    public GameRules(GameState gameState , GameManager gameManager){
         this.gameState = gameState;
+        this.gameManager = gameManager;
+        this.events = new ArrayList<>();
+        this.eventSenders = new ArrayList<>();
     }
 
     public void applyGameRules(){
@@ -17,6 +25,37 @@ public class GameRules {
         // after election
         if (gameState.getGameMode()==GameMode.ELECTION){
 
+        }
+    }
+    public void addEvent(String sendUsername , String message){
+        boolean addOrNot = true;
+
+        if (gameState.getGameMode()==GameMode.NIGHT){
+            try {
+                int usernameID = Integer.parseInt(message);
+                ArrayList<String> choices = gameManager.getAliveCitizens();
+                message = choices.get(usernameID);
+                if (!sendUsername.equalsIgnoreCase(gameState.getKillerUsername())) {
+                    // this part is for Dr.Lecter that can do two things in one night
+                    boolean kill = true; // between kill and save
+                    for(String eventSender:eventSenders){
+                        if (eventSender.equalsIgnoreCase(sendUsername)){
+                            kill = false;
+                        }
+                    }
+                    if(kill){
+                        gameManager.sendMessageToKiller(sendUsername + " opinion is to kill" + message);
+                    }
+                }
+            }catch (NumberFormatException e){
+                gameManager.sendMessageToClientHandler(sendUsername,"wrong input");
+                gameManager.sendMessageToClientHandler(sendUsername,"read");
+                addOrNot = false;
+            }
+        }
+        if (addOrNot) {
+            eventSenders.add(sendUsername);
+            events.add(message);
         }
     }
 }

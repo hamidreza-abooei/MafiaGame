@@ -1,5 +1,6 @@
 package org.ap.midterm.Models;
 
+import org.ap.midterm.Models.Mafia.Mafia;
 import org.ap.midterm.dependencies.GameInitiator;
 import org.ap.midterm.ui.Chat.ChatServer;
 import org.ap.midterm.ui.ClientHandler;
@@ -32,7 +33,7 @@ public class GameManager implements Runnable {
         mafiaChatServerPort = 8654;
         chatServer = new ChatServer(chatServerPort , false , this);
         mafiaChatServer = new ChatServer(mafiaChatServerPort , true , this);
-        gameRules = new GameRules(gameState);
+        gameRules = new GameRules(gameState , this);
     }
 
     /**
@@ -66,6 +67,14 @@ public class GameManager implements Runnable {
     }
 
     /**
+     * send message to killer
+     * @param message message to send
+     */
+    public void sendMessageToKiller(String message){
+        gameState.getKillerClientHandler().startWriting(message);
+    }
+
+    /**
      *
      * @param username the username to check its availability
      * @param clientHandler the client handler of that Player
@@ -79,8 +88,8 @@ public class GameManager implements Runnable {
      * read from client
      * @param string message
      */
-    public void readFromClient(String string){
-
+    public void readFromClient(String sendUsername , String string){
+        gameRules.addEvent(sendUsername , string);
     }
 
     /**
@@ -153,5 +162,9 @@ public class GameManager implements Runnable {
      */
     public ArrayList<String> getAliveCitizens(){
         return gameState.getAliveCitizens();
+    }
+
+    public void sendMessageToClientHandler(String usernameToSend , String messageToSend){
+
     }
 }

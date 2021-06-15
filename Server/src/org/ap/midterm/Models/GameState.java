@@ -61,7 +61,7 @@ public class GameState {
 
     /**
      * kill player
-     * @param playerIndex the player index to kill
+     * @param usernameToKill the player to kill
      */
     public synchronized void killPlayer(String usernameToKill) {
         int counter = 0;
@@ -161,4 +161,37 @@ public class GameState {
         }
         return aliveCitizens;
     }
+
+    /**
+     * get killer client handler
+     * @return killer client handler
+     */
+    public ClientHandler getKillerClientHandler(){
+        return clientHandlerHashMap.get(getKillerUsername());
+    }
+
+    /**
+     * killer username
+     * @return username
+     */
+    public String getKillerUsername (){
+        int counter = 0;
+        for(Player player: players){
+            if(player instanceof Mafia)
+                if(((Mafia) player).isKiller() )
+                    break;
+            counter++;
+        }
+        return usernames.get(counter);
+    }
+
+    /**
+     * get client handler of username
+     * @param usernameOfClient client
+     * @return client handler
+     */
+    public ClientHandler getClientHandler(String usernameOfClient){
+        return clientHandlerHashMap.get(usernameOfClient);
+    }
+
 }

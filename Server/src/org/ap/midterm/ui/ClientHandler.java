@@ -115,8 +115,9 @@ public class ClientHandler implements Runnable{
      * @param string message from client
      */
     public void readFromClient(String string){
-        gameManager.readFromClient(string);
-        System.out.println("this used");
+        gameManager.readFromClient(username , string);
+        startWriting("Arrived Message is: " + string);
+//        System.out.println("this used");
     }
 
     /**

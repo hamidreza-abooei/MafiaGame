@@ -16,6 +16,13 @@ public class Mafia extends Player {
         killer = false;
     }
 
+    /**
+     * is this player, killer or not
+     * @return true if its killer (Assumed GodFather at the first)
+     */
+    public boolean isKiller(){
+        return killer;
+    }
     public void setKiller(){
         this.killer = true;
     }
