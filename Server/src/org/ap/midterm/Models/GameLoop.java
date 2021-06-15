@@ -39,6 +39,7 @@ public class GameLoop {
         try {
             gameManager.setGameMode(GameMode.NIGHT);
             gameManager.mafiaIntroduction();
+            gameManager.DetectiveInquiry();
 //            gameManager.startMafiaChatRoom();
 //            wait();
 
@@ -78,9 +79,6 @@ public class GameLoop {
         } catch (InterruptedException e) {
             System.err.println("Interrupted");
         }
-
-
-
     }
 
 

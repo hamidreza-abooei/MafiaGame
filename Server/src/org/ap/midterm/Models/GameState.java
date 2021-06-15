@@ -238,4 +238,14 @@ public class GameState {
         return alive;
     }
 
+    public ClientHandler getClientHandlerOfPlayer(String playerName){
+        int counter = 0;
+        for (Player player:players){
+            if (player.toString().equalsIgnoreCase(playerName))
+                break;
+            counter ++;
+        }
+        return clientHandlerHashMap.get(usernames.get(counter));
+    }
+
 }
