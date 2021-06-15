@@ -50,6 +50,7 @@ public class GameRules {
             }
         }
         // clear events after apply it
+        checkEndOfGame();
         events.clear();
         eventSenders.clear();
     }
@@ -119,7 +120,7 @@ public class GameRules {
                 gameState.killPlayer(hunterKill);
             }
         }
-        checkEndOfGame();
+
     }
 
     /**
