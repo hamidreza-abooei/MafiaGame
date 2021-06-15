@@ -88,7 +88,10 @@ public class GameRules {
                 }
             }
 
-            
+            // die hard inquiry
+            if(gameState.getUsernameRule(eventSender).equalsIgnoreCase("DieHard")){
+                gameState.getUsernameRule(events.get(counter));
+            }
 
 
             counter++;

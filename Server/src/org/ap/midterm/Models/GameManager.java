@@ -331,9 +331,9 @@ public class GameManager implements Runnable {
     }
 
     /**
-     * die hard act
+     * die hard inquiry
      */
-    public void dieHardAct(){
+    public void dieHardInquiry(){
         if (((DieHard)gameState.getPlayer("DieHard")).isInquiryAble()) {
             ClientHandler dieHardClientHandler = gameState.getClientHandlerOfPlayer("DieHard");
             ArrayList<String> deadUsernames = gameState.getDeadUsernames();
@@ -346,4 +346,13 @@ public class GameManager implements Runnable {
             dieHardClientHandler.startWriting("read");
         }
     }
+
+    /**
+     * return rule to client
+     * @param rule inquired rule
+     */
+    public void dieHardInquiryResult(String rule){
+        gameState.getClientHandlerOfPlayer("DieHard").startWriting("Player tha you had inquired was:" + rule);
+    }
+
 }
