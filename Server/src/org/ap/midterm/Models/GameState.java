@@ -61,7 +61,7 @@ public class GameState {
 
     /**
      * kill player
-     * @param playerIndex the player index to kill
+     * @param usernameToKill the player to kill
      */
     public synchronized void killPlayer(String usernameToKill) {
         int counter = 0;
@@ -104,11 +104,21 @@ public class GameState {
             if (players.get(i) instanceof Mafia){
                 if (players.get(i).isAlive()) {
                     mafiaUserNames.add(usernames.get(i));
-//                    System.out.println("mafia username:" + usernames.get(i) + "rule is: " + players.get(i).toString());
                 }
             }
         }
         return mafiaUserNames;
+    }
+
+
+    public synchronized String getUsernameRule(String usernameToGetRule){
+        int counter = 0;
+        for(String username:usernames){
+            if (username.equalsIgnoreCase(usernameToGetRule))
+                break;
+            counter++;
+        }
+        return players.get(counter).toString();
     }
 
     /**
@@ -140,8 +150,11 @@ public class GameState {
 
     public ArrayList<ClientHandler> getAllClientHandlers(){
         ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
+        int counter = 0;
         for (String username : usernames) {
-            clientHandlers.add(clientHandlerHashMap.get(username));
+            if (players.get(counter).isAlive())
+                clientHandlers.add(clientHandlerHashMap.get(username));
+            counter++;
         }
         return clientHandlers;
     }
@@ -161,4 +174,78 @@ public class GameState {
         }
         return aliveCitizens;
     }
+
+    /**
+     * get killer client handler
+     * @return killer client handler
+     */
+    public ClientHandler getKillerClientHandler(){
+        return clientHandlerHashMap.get(getKillerUsername());
+    }
+
+    /**
+     * killer username
+     * @return username
+     */
+    public String getKillerUsername (){
+        int counter = 0;
+        for(Player player: players){
+            if(player instanceof Mafia)
+                if(((Mafia) player).isKiller() )
+                    break;
+            counter++;
+        }
+        return usernames.get(counter);
+    }
+
+    /**
+     * get client handler of username
+     * @param usernameOfClient client
+     * @return client handler
+     */
+    public ClientHandler getClientHandler(String usernameOfClient){
+        return clientHandlerHashMap.get(usernameOfClient);
+    }
+
+    public Player getPlayer(String usernameOrPlayerName){
+        for (Player player:players){
+            if (usernameOrPlayerName.equalsIgnoreCase(player.toString())){
+                return player;
+            }
+        }
+        int counter = 0;
+        for (String username:usernames){
+            if (username.equalsIgnoreCase(usernameOrPlayerName)){
+                return players.get(counter);
+            }
+            counter++;
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @return alive usernames
+     */
+    public ArrayList<String> getAliveUsernames(){
+        int counter = 0;
+        ArrayList<String> alive = new ArrayList<>();
+        for(String username:usernames){
+            if (players.get(counter).isAlive())
+                alive.add(username);
+            counter++;
+        }
+        return alive;
+    }
+
+    public ClientHandler getClientHandlerOfPlayer(String playerName){
+        int counter = 0;
+        for (Player player:players){
+            if (player.toString().equalsIgnoreCase(playerName))
+                break;
+            counter ++;
+        }
+        return clientHandlerHashMap.get(usernames.get(counter));
+    }
+
 }

@@ -19,25 +19,28 @@ public class ChatServer implements Runnable{
     private boolean running;
     private boolean chatPrint;
     private GameManager gameManager;
+    private int timerLength;
 
     /**
      * constructor
      * @param port port of mafia chat
-     * @param chatPrint print player rule or not
+     * @param rulePrint print player rule or not
      * @param gameManager game manager
+     * @param timerLength chat timer
      */
-    public ChatServer(int port , boolean chatPrint ,GameManager gameManager){
+    public ChatServer(int port , boolean rulePrint ,GameManager gameManager, int timerLength){
         chatClientHandlers = new ArrayList<>();
         this.port = port;
-        this.chatPrint = chatPrint;
+        this.chatPrint = rulePrint;
         this.gameManager = gameManager;
+        this.timerLength = timerLength;
     }
 
     /**
      * start server
      */
     private synchronized void startChat(){
-        ChatTimer chatTimer = new ChatTimer(this , 60);
+        ChatTimer chatTimer = new ChatTimer(this , timerLength);
         Thread timerThread = new Thread(chatTimer);
         timerThread.start();
         try (ServerSocket chatServerSocket = new ServerSocket(port)) {

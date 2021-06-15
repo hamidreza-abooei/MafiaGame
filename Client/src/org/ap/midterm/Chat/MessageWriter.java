@@ -40,11 +40,11 @@ public class MessageWriter implements Runnable{
      */
     public void stopWriting(){
         running = false;
-        System.out.println("I am here");
-        run = false;
+//        System.out.println("I am here");
+//        run = false;
 //        scanner.notify();
 
 //        scanner.close();
-        System.out.println("out");
+//        System.out.println("out");
     }
 }

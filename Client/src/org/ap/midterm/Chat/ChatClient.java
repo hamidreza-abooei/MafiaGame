@@ -55,9 +55,9 @@ public class ChatClient implements Runnable{
                     readString += (char) read;
                 } while ((char) read != '\n');
                 if (readString.equalsIgnoreCase("stopChatClients\r\n")){
-                    System.out.println("here");
+//                    System.out.println("here");
                     messageWriter.stopWriting();
-//                    messageWriterThread.interrupt();
+
                     break;
                 }
                 System.out.print(readString);
