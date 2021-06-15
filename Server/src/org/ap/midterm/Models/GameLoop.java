@@ -1,7 +1,5 @@
 package org.ap.midterm.Models;
 
-import java.util.ArrayList;
-
 /**
  * @author Hamidreza Abooei
  */
@@ -73,7 +71,7 @@ public class GameLoop {
                 gameManager.startMafiaChatRoom();
                 wait();
             }
-            gameManager.mafiaKill();
+            gameManager.mafiaKillRequest();
 //            System.out.println("read sent");
 //            startTimer(60);
 //            System.out.println("timer started 60 seconds");

@@ -242,6 +242,7 @@ public class GameManager implements Runnable {
         ClientHandler doctorClientHandler = gameState.getClientHandlerOfPlayer("Doctor");
         ArrayList<String> usernames = gameState.getAliveUsernames();
         int counter = 0;
+        doctorClientHandler.startWriting("Select one of the bellow usernames to save:");
         for(String username:usernames) {
             doctorClientHandler.startWriting(counter + "- " + username);
             counter++;
@@ -257,6 +258,7 @@ public class GameManager implements Runnable {
         ClientHandler doctorLecterClientHandler = gameState.getClientHandlerOfPlayer("DrLecter");
         ArrayList<String> mafiaUsernames = gameState.getMafiaUserNames();
         int counter = 0;
+        doctorLecterClientHandler.startWriting("Select one of the bellow mafias to save:");
         for (String mafiaUsername: mafiaUsernames){
             doctorLecterClientHandler.startWriting(counter + "- " + mafiaUsername);
             counter++;
@@ -266,9 +268,9 @@ public class GameManager implements Runnable {
     }
 
     /**
-     * mafia kill
+     * mafia kill request
      */
-    public void mafiaKill(){
+    public void mafiaKillRequest(){
         mafiaBroadcastMessage("Select User to kill.");
         ArrayList<String> usernames = getAliveCitizens();
         for (int i = 0; i < usernames.size(); i++) {
