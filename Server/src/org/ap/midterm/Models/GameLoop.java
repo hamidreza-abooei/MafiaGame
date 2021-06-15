@@ -51,7 +51,7 @@ public class GameLoop {
             startTimer(30);
             wait();
             gameManager.veto();
-            startTimer(30);
+            startTimer(20);
             wait();
 
         } catch (InterruptedException e) {
