@@ -41,6 +41,7 @@ public class GameLoop {
             gameManager.mafiaIntroduction();
             gameManager.DetectiveInquiry();
             gameManager.DoctorSave();
+            gameManager.DoctorLecterSave();
 //            gameManager.startMafiaChatRoom();
 //            wait();
 

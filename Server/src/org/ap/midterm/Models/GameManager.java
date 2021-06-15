@@ -250,4 +250,19 @@ public class GameManager implements Runnable {
         doctorClientHandler.startWriting("read");
     }
 
+    /**
+     * Doctor Lecter can save Mafia
+     */
+    public void DoctorLecterSave(){
+        ClientHandler doctorLecterClientHandler = gameState.getClientHandlerOfPlayer("DrLecter");
+        ArrayList<String> mafiaUsernames = gameState.getMafiaUserNames();
+        int counter = 0;
+        for (String mafiaUsername: mafiaUsernames){
+            doctorLecterClientHandler.startWriting(counter + "- " + mafiaUsername);
+            counter++;
+        }
+        doctorLecterClientHandler.startWriting("Warning: you can only save your self once");
+        doctorLecterClientHandler.startWriting("read");
+    }
+
 }
