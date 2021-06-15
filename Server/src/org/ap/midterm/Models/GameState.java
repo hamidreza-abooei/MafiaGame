@@ -207,4 +207,35 @@ public class GameState {
         return clientHandlerHashMap.get(usernameOfClient);
     }
 
+    public Player getPlayer(String usernameOrPlayerName){
+        for (Player player:players){
+            if (usernameOrPlayerName.equalsIgnoreCase(player.toString())){
+                return player;
+            }
+        }
+        int counter = 0;
+        for (String username:usernames){
+            if (username.equalsIgnoreCase(usernameOrPlayerName)){
+                return players.get(counter);
+            }
+            counter++;
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @return alive usernames
+     */
+    public ArrayList<String> getAliveUsernames(){
+        int counter = 0;
+        ArrayList<String> alive = new ArrayList<>();
+        for(String username:usernames){
+            if (players.get(counter).isAlive())
+                alive.add(username);
+            counter++;
+        }
+        return alive;
+    }
+
 }

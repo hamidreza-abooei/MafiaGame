@@ -26,7 +26,6 @@ public class GameLoop {
         firstNight();
         while(true){
             day();
-            election();
             applyChanges();
             night();
             applyChanges();
@@ -62,19 +61,28 @@ public class GameLoop {
     }
 
     /**
-     * things that is done in the day
+     * things that is done in the day and election
      */
     private void day(){
-        gameManager.startPublicChatRoom();
+        try {
+            gameManager.startPublicChatRoom();
+//            startTimer();
+            wait();
+            gameManager.vote();
+            startTimer(30);
+            wait();
+            gameManager.veto();
+            startTimer(30);
+            wait();
+
+        } catch (InterruptedException e) {
+            System.err.println("Interrupted");
+        }
+
+
 
     }
 
-    /**
-     * things that is done in the election
-     */
-    private void election(){
-
-    }
 
     /**
      * things that is been done in the night

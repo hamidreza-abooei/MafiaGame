@@ -1,5 +1,7 @@
 package org.ap.midterm.Models;
 
+import org.ap.midterm.Models.Mafia.Mafia;
+
 import java.util.ArrayList;
 
 public class GameRules {
@@ -25,6 +27,15 @@ public class GameRules {
         // after election
         if (gameState.getGameMode()==GameMode.ELECTION){
 
+        }
+
+
+        if (!gameState.getPlayer("GodFather").isAlive()){
+            if (gameState.getPlayer("DrLecter").isAlive()){
+                ((Mafia)gameState.getPlayer("DrLecter")).setKiller();
+            }else{
+                ((Mafia)gameState.getPlayer("Mafia")).setKiller();
+            }
         }
     }
     public void addEvent(String sendUsername , String message){

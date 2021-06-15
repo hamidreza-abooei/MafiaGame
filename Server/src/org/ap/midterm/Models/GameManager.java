@@ -198,5 +198,23 @@ public class GameManager implements Runnable {
         }
     }
 
+    /**
+     * vote
+     */
+    public void vote(){
+        broadcastMessage("Vote");
+        ArrayList<String> usernames = gameState.getAliveUsernames();
+        int counter = 0;
+        for (String username: usernames){
+            broadcastMessage(counter + "- " + username);
+            counter++;
+        }
+        broadcastMessage("read");
+    }
 
+    public void veto(){
+        ClientHandler presidentClientHandler = gameState.getClientHandler("President");
+        presidentClientHandler.startWriting("Do you want to veto this vote?");
+        presidentClientHandler.startWriting("read");
+    }
 }

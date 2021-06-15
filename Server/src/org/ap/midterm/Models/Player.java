@@ -37,26 +37,26 @@ public abstract class Player{
         return alive;
     }
 
-    /**
-     * night job of player
-     */
-    public void nightJob(){
-
-    }
-
-    /**
-     * day job of player
-     */
-    public void dayJob(){
-
-    }
-
-    /**
-     * election job of player
-     */
-    public void electionJob(){
-
-    }
+//    /**
+//     * night job of player
+//     */
+//    public void nightJob(){
+//
+//    }
+//
+//    /**
+//     * day job of player
+//     */
+//    public void dayJob(){
+//
+//    }
+//
+//    /**
+//     * election job of player
+//     */
+//    public void electionJob(){
+//
+//    }
 
     /**
      *
