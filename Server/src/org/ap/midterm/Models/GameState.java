@@ -110,7 +110,11 @@ public class GameState {
         return mafiaUserNames;
     }
 
-
+    /**
+     *
+     * @param usernameToGetRule username that we want its rule
+     * @return rule of that username
+     */
     public synchronized String getUsernameRule(String usernameToGetRule){
         int counter = 0;
         for(String username:usernames){
@@ -148,6 +152,10 @@ public class GameState {
         this.gameMode = gameMode;
     }
 
+    /**
+     * get all client handlers
+     * @return arraylist of all alive client handlers
+     */
     public ArrayList<ClientHandler> getAllClientHandlers(){
         ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
         int counter = 0;
@@ -207,6 +215,11 @@ public class GameState {
         return clientHandlerHashMap.get(usernameOfClient);
     }
 
+    /**
+     * get player of username or player name
+     * @param usernameOrPlayerName username or player name
+     * @return player of entered input
+     */
     public Player getPlayer(String usernameOrPlayerName){
         for (Player player:players){
             if (usernameOrPlayerName.equalsIgnoreCase(player.toString())){
@@ -238,6 +251,11 @@ public class GameState {
         return alive;
     }
 
+    /**
+     * get Client Handler Of Player
+     * @param playerName player name
+     * @return client handler of that player name
+     */
     public ClientHandler getClientHandlerOfPlayer(String playerName){
         int counter = 0;
         for (Player player:players){

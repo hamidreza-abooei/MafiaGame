@@ -4,6 +4,9 @@ import org.ap.midterm.Models.Mafia.Mafia;
 
 import java.util.ArrayList;
 
+/**
+ * @author Hamidreza Abooei
+ */
 public class GameRules {
     GameState gameState;
     GameManager gameManager;
@@ -16,6 +19,9 @@ public class GameRules {
         this.eventSenders = new ArrayList<>();
     }
 
+    /**
+     * apply game rules
+     */
     public void applyGameRules(){
         // after night
         if (gameState.getGameMode()==GameMode.NIGHT){

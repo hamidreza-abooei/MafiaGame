@@ -90,6 +90,10 @@ public class GameLoop {
         gameManager.applyChanges();
     }
 
+    /**
+     *
+     * @param length length of timer
+     */
     private void startTimer(int length){
         Thread timerThread = new Thread(new LoopTimer(this,length));
         timerThread.start();

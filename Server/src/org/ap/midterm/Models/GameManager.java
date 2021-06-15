@@ -151,6 +151,9 @@ public class GameManager implements Runnable {
 
     }
 
+    /**
+     * resmue game loop (notify wait in game loop)
+     */
     public void resumeGameLoop(){
         gameLoop.resume();
     }
